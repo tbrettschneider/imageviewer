@@ -22,6 +22,7 @@ import acdsee.gui.components.explorer.DirectoryTreeNode;
 import acdsee.gui.util.UIUtils;
 import acdsee.io.util.FileHelper;
 import acdsee.sorting.ui.SortMenu;
+import java.awt.Dimension;
 import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -421,7 +422,12 @@ public class AcdSeeFrame extends javax.swing.JFrame {
 
     private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
         if (!jSlider1.getValueIsAdjusting()) {
-            ((ThumbnailPane) thumbnailPane).setThumbSize(jSlider1.getValue());
+            ThumbnailPane tp = (ThumbnailPane)thumbnailPane;
+            tp.setThumbSize(jSlider1.getValue());
+            int thumbSize = tp.getThumbSize();
+            tp.getVerticalScrollBar().setBlockIncrement(thumbSize + 10);
+            tp.getVerticalScrollBar().setUnitIncrement(thumbSize + 10);
+            tp.getViewport().setMinimumSize(new Dimension(thumbSize + 10 + 10, thumbSize + 10 + 10));
         }
     }//GEN-LAST:event_jSlider1StateChanged
 
