@@ -14,8 +14,6 @@ import java.util.stream.Stream;
  * @author tommy
  */
 public class Directory extends Walkable<File, File> {
-
-    public Directory() {}
     
     public Directory(File directory) {
         this.source = directory;

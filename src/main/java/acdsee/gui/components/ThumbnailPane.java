@@ -2,6 +2,7 @@ package acdsee.gui.components;
 
 import acdsee.base.Directory;
 import acdsee.base.Walkable;
+import acdsee.base.ZipFile;
 import acdsee.gui.components.thumbnail.ZipEntryThumbnail;
 import acdsee.gui.components.thumbnail.FileThumbnail;
 import acdsee.gui.components.thumbnail.AbstractThumbnail;
@@ -27,6 +28,7 @@ import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -236,7 +238,7 @@ public class ThumbnailPane extends JScrollPane {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 try {
                     FileThumbnail at = (FileThumbnail) evt.getSource();
-                    setSource(at.getFile());
+                    setSource(Walkable.getInstance(at.getFile()));
                 } catch (Exception ex) {
                     //TODO                    
                 }
@@ -287,7 +289,19 @@ public class ThumbnailPane extends JScrollPane {
         getPanel().revalidate();
         getPanel().repaint();
         
-        walkable.getChildren().forEach(System.out::println);
+        if (walkable instanceof ZipFile) {
+            walkable.getChildren().forEach(zipEntry -> {
+                AbstractThumbnail t = new ZipEntryThumbnail((ZipEntry)zipEntry, (java.util.zip.ZipFile)walkable.getSource(), executorService);
+                getVerticalScrollBar().addAdjustmentListener(t);
+                getPanel().add(t);
+            });
+        } else if (walkable instanceof Directory) {
+            walkable.getChildren().forEach(file -> {
+                AbstractThumbnail t = new FileThumbnail((File)file, executorService);
+                getVerticalScrollBar().addAdjustmentListener(t);
+                getPanel().add(t);
+            });
+        }
         
         /*
         if (FileHelper.isZIP(walkable)) {
