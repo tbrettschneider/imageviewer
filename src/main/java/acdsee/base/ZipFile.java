@@ -5,8 +5,6 @@
  */
 package acdsee.base;
 
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 
@@ -16,10 +14,13 @@ import java.util.zip.ZipEntry;
  */
 public class ZipFile extends Walkable<java.util.zip.ZipFile, ZipEntry> {
 
+    public ZipFile(java.util.zip.ZipFile zipFile) {
+        source = zipFile;
+    }
+    
     @Override
-    public List<ZipEntry> getChildren() {
+    public Stream<ZipEntry> getChildren() {
         java.util.zip.ZipFile zipFile = getSource();
-        Stream<ZipEntry> zipEntries = (Stream<ZipEntry>) zipFile.stream();
-        return zipEntries.collect(Collectors.toList());
+        return (Stream<ZipEntry>)zipFile.stream();
     } 
 }

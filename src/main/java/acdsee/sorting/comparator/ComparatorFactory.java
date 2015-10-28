@@ -8,6 +8,8 @@
  */
 package acdsee.sorting.comparator;
 
+import acdsee.base.Walkable;
+import acdsee.base.ZipFile;
 import acdsee.io.util.FileHelper;
 import acdsee.sorting.comparator.file.FileLastModifiedComparator;
 import acdsee.sorting.comparator.file.FileNameComparator;
@@ -24,7 +26,7 @@ import java.util.Comparator;
  */
 public class ComparatorFactory {
 
-    private static File source;
+    private static Walkable walkable;
 
     private static ComparatorFactory cf;
 
@@ -34,8 +36,8 @@ public class ComparatorFactory {
     private ComparatorFactory() {
     }
 
-    public static final ComparatorFactory getInstance(File f) {
-        source = f;
+    public static final ComparatorFactory getInstance(Walkable f) {
+        walkable = f;
         if (cf == null) {
             cf = new ComparatorFactory();
         }
@@ -43,21 +45,21 @@ public class ComparatorFactory {
     }
 
     public Comparator getSizeComparator() {
-        if (FileHelper.isZIP(source)) {
+        if (walkable instanceof ZipFile) {
             return new ZipEntrySizeComparator();
         }
         return new FileSizeComparator();
     }
 
     public Comparator getLastModifiedComparator() {
-        if (FileHelper.isZIP(source)) {
+        if (walkable instanceof ZipFile) {
             return new ZipEntryLastModifiedComparator();
         }
         return new FileLastModifiedComparator();
     }
 
     public Comparator getNameComparator() {
-        if (FileHelper.isZIP(source)) {
+        if (walkable instanceof ZipFile) {
             return new ZipEntryNameComparator();
         }
         return new FileNameComparator();

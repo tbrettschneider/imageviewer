@@ -1,9 +1,10 @@
 package acdsee.gui.components;
 
+import acdsee.base.Directory;
+import acdsee.base.Walkable;
 import acdsee.gui.components.thumbnail.ZipEntryThumbnail;
 import acdsee.gui.components.thumbnail.FileThumbnail;
 import acdsee.gui.components.thumbnail.AbstractThumbnail;
-import acdsee.io.util.FileHelper;
 import acdsee.sorting.ui.SortMenu;
 import java.awt.Color;
 import java.awt.Container;
@@ -22,15 +23,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Enumeration;
 import java.util.concurrent.ExecutorService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -39,7 +35,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.HiddenFileFilter;
 
 public class ThumbnailPane extends JScrollPane {
 
@@ -47,7 +42,7 @@ public class ThumbnailPane extends JScrollPane {
     private JPanel panel;
     private PreviewPane previewpane;
     private ExecutorService executorService;
-    private File walkable;
+    private Walkable walkable;
     private int thumbSize = 135;
     private final PropertyChangeSupport pcs;
     private MouseAdapter mouseListener;
@@ -86,10 +81,8 @@ public class ThumbnailPane extends JScrollPane {
                 if (SwingUtilities.isLeftMouseButton(evt) && evt.getClickCount() > 1) {
                     if (proxy instanceof FileThumbnail) {
                         File f = ((FileThumbnail) proxy).getFile();
-                        if (f.isDirectory()) {
-                            setSource(f);
-                            return;
-                        }
+                        Walkable walkable = Walkable.getInstance(f);
+                        setSource(walkable);
                     }
                 }
                 
@@ -153,6 +146,7 @@ public class ThumbnailPane extends JScrollPane {
 //                        Desktop.getDesktop().open(((FileThumbnail)proxy).getFile());
                         final JFrame w = new JFrame();
                         w.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                        
                         w.setUndecorated(true);
                         w.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds());
                         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -282,19 +276,23 @@ public class ThumbnailPane extends JScrollPane {
         setSource(getSource());
     }
 
-    public File getSource() {
+    public Walkable getSource() {
         return this.walkable;
     }
 
-    public void setSource(File file) {
-        this.walkable = file;
+    public void setSource(Walkable walkable) {
+        this.walkable = walkable;
         getViewport().setViewPosition(new Point(0, 0));
         getPanel().removeAll();
         getPanel().revalidate();
         getPanel().repaint();
-        if (FileHelper.isZIP(file)) {
+        
+        walkable.getChildren().forEach(System.out::println);
+        
+        /*
+        if (FileHelper.isZIP(walkable)) {
             try {
-                ZipFile zipFile = new ZipFile(file);
+                ZipFile zipFile = new ZipFile(walkable);
                 Enumeration<? extends ZipEntry> entries = zipFile.entries();
                 ZipEntry ze;
                 ZipEntryThumbnail proxy;
@@ -312,12 +310,13 @@ public class ThumbnailPane extends JScrollPane {
         }
 
         FileFilter filter = HiddenFileFilter.VISIBLE;
-        Arrays.asList(file.listFiles(filter)).parallelStream().forEach(f -> {
+        Arrays.asList(walkable.listFiles(filter)).parallelStream().forEach(f -> {
             AbstractThumbnail proxy = new FileThumbnail(f, executorService);
             proxy.addMouseListener(mouseListener);
             getVerticalScrollBar().addAdjustmentListener(proxy);
             getPanel().add(proxy);
         });      
+        */
     }
 
     public void setPreviewpane(PreviewPane previewpane) {

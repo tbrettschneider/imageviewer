@@ -5,6 +5,7 @@
  */
 package acdsee.gui.dialogs;
 
+import acdsee.base.Walkable;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -12,7 +13,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.tree.TreePath;
 
-import org.apache.commons.io.FileUtils;
 
 import acdsee.gui.actions.FullscreenAction;
 import acdsee.gui.components.CoolGlassPane;
@@ -20,7 +20,6 @@ import acdsee.gui.components.PreviewPane;
 import acdsee.gui.components.ThumbnailPane;
 import acdsee.gui.components.explorer.DirectoryTreeNode;
 import acdsee.gui.util.UIUtils;
-import acdsee.io.util.FileHelper;
 import acdsee.sorting.ui.SortMenu;
 import java.awt.Dimension;
 import java.io.File;
@@ -382,8 +381,9 @@ public class AcdSeeFrame extends javax.swing.JFrame {
         TreePath path = evt.getPath();
         final DirectoryTreeNode node = (DirectoryTreeNode) path.getLastPathComponent();
         final File fileObj = node.getDirectory();
-        ((ThumbnailPane)thumbnailPane).setSource(fileObj);
-        new Thread() {
+        final Walkable walkable = Walkable.getInstance(fileObj);
+        ((ThumbnailPane)thumbnailPane).setSource(walkable);
+        /*new Thread() {
             @Override
             public void run() {
                 if (!FileHelper.isZIP(fileObj)) {
@@ -393,7 +393,7 @@ public class AcdSeeFrame extends javax.swing.JFrame {
                     });
                 }
             }
-        }.start();
+        }.start();*/
         //comboboxLocation.setSelectedItem(node.getDirectory());
         //((LimitedEntriesComboxBoxModel)comboboxLocation.getModel()).addElement(node.getDirectory());
     }//GEN-LAST:event_treeFilesystemValueChanged

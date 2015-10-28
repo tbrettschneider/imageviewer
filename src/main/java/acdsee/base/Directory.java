@@ -7,7 +7,7 @@ package acdsee.base;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.List;
+import java.util.stream.Stream;
 
 /**
  *
@@ -15,9 +15,15 @@ import java.util.List;
  */
 public class Directory extends Walkable<File, File> {
 
+    public Directory() {}
+    
+    public Directory(File directory) {
+        this.source = directory;
+    }
+    
     @Override
-    public List<File> getChildren() {
+    public Stream<File> getChildren() {
         File directory = getSource();
-        return Arrays.asList(directory.listFiles());
+        return Arrays.stream(directory.listFiles());
     }    
 }
