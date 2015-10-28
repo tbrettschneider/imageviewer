@@ -120,7 +120,6 @@ public class ThumbnailPane extends JScrollPane {
                         popup.addSeparator();
                     }
                     
-                    //JMenuItem mi = new JMenuItem(new DeleteAction("Delete"));
                     JMenuItem mi = new JMenuItem("Delete");
                     mi.addActionListener((ActionEvent arg0) -> {
                         final File selectedFile = ((FileThumbnail) proxy).getFile();
@@ -292,45 +291,18 @@ public class ThumbnailPane extends JScrollPane {
         if (walkable instanceof ZipFile) {
             walkable.getChildren().forEach(zipEntry -> {
                 AbstractThumbnail t = new ZipEntryThumbnail((ZipEntry)zipEntry, (java.util.zip.ZipFile)walkable.getSource(), executorService);
+                t.addMouseListener(mouseListener);
                 getVerticalScrollBar().addAdjustmentListener(t);
                 getPanel().add(t);
             });
         } else if (walkable instanceof Directory) {
             walkable.getChildren().forEach(file -> {
                 AbstractThumbnail t = new FileThumbnail((File)file, executorService);
+                t.addMouseListener(mouseListener);
                 getVerticalScrollBar().addAdjustmentListener(t);
                 getPanel().add(t);
             });
         }
-        
-        /*
-        if (FileHelper.isZIP(walkable)) {
-            try {
-                ZipFile zipFile = new ZipFile(walkable);
-                Enumeration<? extends ZipEntry> entries = zipFile.entries();
-                ZipEntry ze;
-                ZipEntryThumbnail proxy;
-                while (entries.hasMoreElements()) {
-                    ze = entries.nextElement();
-                    proxy = new ZipEntryThumbnail(ze, zipFile, executorService);
-                    proxy.addMouseListener(mouseListener);
-                    getVerticalScrollBar().addAdjustmentListener(proxy);
-                    getPanel().add(proxy);
-                }
-                return;
-            } catch (Exception e) {
-                //TODO
-            }          
-        }
-
-        FileFilter filter = HiddenFileFilter.VISIBLE;
-        Arrays.asList(walkable.listFiles(filter)).parallelStream().forEach(f -> {
-            AbstractThumbnail proxy = new FileThumbnail(f, executorService);
-            proxy.addMouseListener(mouseListener);
-            getVerticalScrollBar().addAdjustmentListener(proxy);
-            getPanel().add(proxy);
-        });      
-        */
     }
 
     public void setPreviewpane(PreviewPane previewpane) {
