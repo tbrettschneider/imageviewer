@@ -47,7 +47,7 @@ public class ThumbnailPane extends JScrollPane {
     private JPanel panel;
     private PreviewPane previewpane;
     private ExecutorService executorService;
-    private File file;
+    private File walkable;
     private int thumbSize = 135;
     private final PropertyChangeSupport pcs;
     private MouseAdapter mouseListener;
@@ -283,11 +283,11 @@ public class ThumbnailPane extends JScrollPane {
     }
 
     public File getSource() {
-        return this.file;
+        return this.walkable;
     }
 
     public void setSource(File file) {
-        this.file = file;
+        this.walkable = file;
         getViewport().setViewPosition(new Point(0, 0));
         getPanel().removeAll();
         getPanel().revalidate();
