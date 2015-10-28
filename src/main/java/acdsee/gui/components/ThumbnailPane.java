@@ -40,6 +40,8 @@ import org.apache.commons.io.FileUtils;
 
 public class ThumbnailPane extends JScrollPane {
 
+    private static final Point UPPER_LEFT_CORNER = new Point(0, 0);
+    
     private static ThumbnailPane thumbnailPane;
     private JPanel panel;
     private PreviewPane previewpane;
@@ -193,9 +195,6 @@ public class ThumbnailPane extends JScrollPane {
         setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         setRequestFocusEnabled(true);
         setAutoscrolls(true);
-        /*getVerticalScrollBar().setBlockIncrement(getThumbSize() + 10);
-        getVerticalScrollBar().setUnitIncrement(getThumbSize() + 10);
-        getViewport().setMinimumSize(new Dimension(getThumbSize() + 10 + 10, getThumbSize() + 10 + 10));*/
         panel = new JPanel() {
             private final Dimension MINSIZE = new Dimension(getThumbSize() + 10 + 10, getThumbSize() + 10 + 10);
 
@@ -283,7 +282,7 @@ public class ThumbnailPane extends JScrollPane {
 
     public void setSource(Walkable walkable) {
         this.walkable = walkable;
-        getViewport().setViewPosition(new Point(0, 0));
+        getViewport().setViewPosition(UPPER_LEFT_CORNER);
         getPanel().removeAll();
         getPanel().revalidate();
         getPanel().repaint();
