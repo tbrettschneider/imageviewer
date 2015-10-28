@@ -21,6 +21,6 @@ public class ZipFile extends Walkable<java.util.zip.ZipFile, ZipEntry> {
     @Override
     public Stream<ZipEntry> getChildren() {
         java.util.zip.ZipFile zipFile = getSource();
-        return (Stream<ZipEntry>)zipFile.stream();
+        return (Stream<ZipEntry>)zipFile.stream().parallel();
     } 
 }

@@ -22,6 +22,6 @@ public class Directory extends Walkable<File, File> {
     @Override
     public Stream<File> getChildren() {
         File directory = getSource();
-        return Arrays.stream(directory.listFiles());
+        return Arrays.stream(directory.listFiles()).parallel();
     }    
 }

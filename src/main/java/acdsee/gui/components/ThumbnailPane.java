@@ -40,7 +40,7 @@ import org.apache.commons.io.FileUtils;
 
 public class ThumbnailPane extends JScrollPane {
 
-    private static final Point UPPER_LEFT_CORNER = new Point(0, 0);
+    private static final Point UPPERLEFTCORNER = new Point(0, 0);
     
     private static ThumbnailPane thumbnailPane;
     private JPanel panel;
@@ -272,7 +272,7 @@ public class ThumbnailPane extends JScrollPane {
         return panel;
     }
 
-    public void refresh() {
+    private void refresh() {
         setSource(getSource());
     }
 
@@ -281,26 +281,28 @@ public class ThumbnailPane extends JScrollPane {
     }
 
     public void setSource(Walkable walkable) {
-        this.walkable = walkable;
-        getViewport().setViewPosition(UPPER_LEFT_CORNER);
-        getPanel().removeAll();
-        getPanel().revalidate();
-        getPanel().repaint();
-        
-        if (walkable instanceof ZipFile) {
-            walkable.getChildren().forEach(zipEntry -> {
-                AbstractThumbnail t = new ZipEntryThumbnail((ZipEntry)zipEntry, (java.util.zip.ZipFile)walkable.getSource(), executorService);
-                t.addMouseListener(mouseListener);
-                getVerticalScrollBar().addAdjustmentListener(t);
-                getPanel().add(t);
-            });
-        } else if (walkable instanceof Directory) {
-            walkable.getChildren().forEach(file -> {
-                AbstractThumbnail t = new FileThumbnail((File)file, executorService);
-                t.addMouseListener(mouseListener);
-                getVerticalScrollBar().addAdjustmentListener(t);
-                getPanel().add(t);
-            });
+        if (walkable!=null) {
+            this.walkable = walkable;
+            getViewport().setViewPosition(UPPERLEFTCORNER);
+            getPanel().removeAll();
+            getPanel().revalidate();
+            getPanel().repaint();
+
+            if (walkable instanceof ZipFile) {
+                walkable.getChildren().forEach(zipEntry -> {
+                    AbstractThumbnail t = new ZipEntryThumbnail((ZipEntry)zipEntry, (java.util.zip.ZipFile)walkable.getSource(), executorService);
+                    t.addMouseListener(mouseListener);
+                    getVerticalScrollBar().addAdjustmentListener(t);
+                    getPanel().add(t);
+                });
+            } else if (walkable instanceof Directory) {
+                walkable.getChildren().forEach(file -> {
+                    AbstractThumbnail t = new FileThumbnail((File)file, executorService);
+                    t.addMouseListener(mouseListener);
+                    getVerticalScrollBar().addAdjustmentListener(t);
+                    getPanel().add(t);
+                });
+            }
         }
     }
 
@@ -309,15 +311,13 @@ public class ThumbnailPane extends JScrollPane {
     }
 
     public int getThumbSize() {
-        return thumbSize;
+        return this.thumbSize;
     }
 
     public void setThumbSize(int thumbSize) {
         this.thumbSize = thumbSize;
         AbstractThumbnail.setThumbnailHeight(thumbSize);
         AbstractThumbnail.setThumbnailWidth(thumbSize);
-        if (getSource() != null) {
-            refresh();
-        }
+        refresh();
     }
 }
