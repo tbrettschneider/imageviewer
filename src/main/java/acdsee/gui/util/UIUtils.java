@@ -25,22 +25,22 @@ public class UIUtils {
 
     /**
      *
-     * @param a_frame
+     * @param frame
      */
-    public static final void toggleFullScreenMode(final JFrame a_frame) {
+    public static final void toggleFullScreenMode(final JFrame frame) {
         final GraphicsDevice graphicsDevice = GraphicsEnvironment.
                 getLocalGraphicsEnvironment().getDefaultScreenDevice();
 
         if (graphicsDevice.isFullScreenSupported()) {
             SwingUtilities.invokeLater(() -> {
-                a_frame.setVisible(false);
-                a_frame.dispose();
-                a_frame.setUndecorated(isFullScreenMode());
-                graphicsDevice.setFullScreenWindow(isFullScreenMode() ? null : a_frame);
-                a_frame.setResizable(!isFullScreenMode());
+                frame.setVisible(false);
+                frame.dispose();
+                frame.setUndecorated(isFullScreenMode());
+                graphicsDevice.setFullScreenWindow(isFullScreenMode() ? null : frame);
+                frame.setResizable(!isFullScreenMode());
                 
                 if (!isFullScreenMode()) {
-                    a_frame.setVisible(true);
+                    frame.setVisible(true);
                 }
             });
         } else {

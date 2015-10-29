@@ -92,6 +92,6 @@ public class NewPreviewPane extends JComponent implements IIOReadProgressListene
         f.setSize(800, 600);
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        p.loadOriginalImage(new File("d:\\test2.jpg"));
+        p.loadOriginalImage(new File("I:\\Pictures\\Sonycam\\DSC01183.jpg"));
     }
 }

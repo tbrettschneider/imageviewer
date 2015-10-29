@@ -37,8 +37,8 @@ public class ImageManager implements IImageManager {
     @Override
     public final BufferedImage getImage(final URI uri) throws IOException {
         ProxySettings proxySettings = ProxySettings.getInstance();
-        proxySettings.setProxyUsername("Tommy Brettschneider");
-        proxySettings.setProxyPassword("ginawild");
+        proxySettings.setProxyUsername("username");
+        proxySettings.setProxyPassword("password");
         proxySettings.setProxyAuthenticationEnabled(true);
         return getImage(new ProxyConnection(uri.toURL().openConnection(), proxySettings).getInputStream(), null);
     }

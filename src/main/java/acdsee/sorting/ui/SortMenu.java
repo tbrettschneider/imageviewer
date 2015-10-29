@@ -8,9 +8,7 @@ import java.awt.Container;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
@@ -87,12 +85,10 @@ public class SortMenu extends JMenu {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            List<Component> thumbnails = Arrays.asList(sortableContainer.getComponents());
-            Collections.sort(thumbnails, comparator);
+            Component[] thumbnails = sortableContainer.getComponents();
+            Arrays.sort(thumbnails, comparator);
             sortableContainer.removeAll();
-            thumbnails.stream().forEach((thumb) -> {
-                sortableContainer.add(thumb);
-            });
+            Arrays.stream(thumbnails).parallel().forEach(thumb -> sortableContainer.add(thumb));
 
             tp.getViewport().setViewPosition(new Point(0, 0));
 

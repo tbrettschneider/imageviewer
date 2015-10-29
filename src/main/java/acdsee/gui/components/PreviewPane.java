@@ -67,6 +67,7 @@ public class PreviewPane extends JPanel implements IPreviewPane {
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
+                System.out.println("component resized...");
                 final BufferedImage currentImg = imageCache.getCurrentImage();
                 if (getDisplayMode().equals(AUTORESIZE) && currentImg != null) {
                     final BufferedImage autoresizedImg = imageCache.proportionalScale(currentImg, AUTORESIZE);
