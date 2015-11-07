@@ -41,6 +41,12 @@ import org.apache.commons.io.FileUtils;
 public class ThumbnailPane extends JScrollPane {
 
     private static final Point UPPERLEFTCORNER = new Point(0, 0);
+
+    private static final int THUMB_MARGIN_LEFT = 10;
+    private static final int THUMB_MARGIN_RIGHT = 10;
+    private static final int THUMB_MARGIN_BOTTOM = 10;
+    private static final int THUMB_MARGIN_TOP = 10;
+
     
     private static ThumbnailPane thumbnailPane;
     private JPanel panel;
@@ -63,9 +69,9 @@ public class ThumbnailPane extends JScrollPane {
         if (thumbnailPane == null) {
             thumbnailPane = new ThumbnailPane();
             int thumbSize = thumbnailPane.getThumbSize();
-            thumbnailPane.getVerticalScrollBar().setBlockIncrement(thumbSize + 10);
-            thumbnailPane.getVerticalScrollBar().setUnitIncrement(thumbSize + 10);
-            thumbnailPane.getViewport().setMinimumSize(new Dimension(thumbSize + 10 + 10, thumbSize + 10 + 10));
+            thumbnailPane.getVerticalScrollBar().setBlockIncrement(thumbSize + THUMB_MARGIN_BOTTOM);
+            thumbnailPane.getVerticalScrollBar().setUnitIncrement(thumbSize + THUMB_MARGIN_BOTTOM);
+            thumbnailPane.getViewport().setMinimumSize(new Dimension(thumbSize + THUMB_MARGIN_LEFT + THUMB_MARGIN_RIGHT, thumbSize + THUMB_MARGIN_TOP + THUMB_MARGIN_BOTTOM));
         }
         return thumbnailPane;
     }
@@ -196,7 +202,7 @@ public class ThumbnailPane extends JScrollPane {
         setRequestFocusEnabled(true);
         setAutoscrolls(true);
         panel = new JPanel() {
-            private final Dimension MINSIZE = new Dimension(getThumbSize() + 10 + 10, getThumbSize() + 10 + 10);
+            private final Dimension MINSIZE = new Dimension(getThumbSize() + THUMB_MARGIN_LEFT + THUMB_MARGIN_RIGHT, getThumbSize() + THUMB_MARGIN_TOP + THUMB_MARGIN_BOTTOM);
 
             @Override
             public java.awt.Dimension getMinimumSize() {
@@ -230,7 +236,7 @@ public class ThumbnailPane extends JScrollPane {
         panel.setBackground(Color.WHITE);
         SelectionContainer sc = new SelectionContainer(panel);
         getViewport().add(sc);
-        panel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        panel.setLayout(new FlowLayout(FlowLayout.LEFT, THUMB_MARGIN_RIGHT, THUMB_MARGIN_BOTTOM));
         sc.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -260,6 +266,9 @@ public class ThumbnailPane extends JScrollPane {
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent evt) {
+                if ((getThumbSize() + THUMB_MARGIN_LEFT + THUMB_MARGIN_RIGHT + getVerticalScrollBar().getWidth()) > getWidth()) {
+                    setThumbSize(getWidth() - THUMB_MARGIN_LEFT - THUMB_MARGIN_RIGHT - getVerticalScrollBar().getWidth());
+                }
                 panel.invalidate();
                 panel.validate();
                 panel.repaint();
