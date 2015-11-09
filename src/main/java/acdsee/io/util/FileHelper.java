@@ -1,50 +1,20 @@
 package acdsee.io.util;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
+import org.apache.commons.io.FilenameUtils;
 
 public class FileHelper {
 
-    private static final DateFormat DATEFORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
-
+    private static final String[] FILE_EXTENSION_ZIP = {"zip", "ZIP"};
+    
     /**
      * Determines if the given file object defers a zip file on the filesystem.
      * @param file
      * @return 
      */
     public static final boolean isZIP(final File file) {
-        return file.isFile() && file.getName().toLowerCase().endsWith("zip");
-    }
-    
-    public static String getSt_LastModified(File file) {
-        return FileHelper.DATEFORMAT.format(new Date(file.lastModified()));
-    }
-
-    public static long getSizeInKiloByte(File file) {
-        return file.length() / 1024;
-    }
-
-    public static long getSizeInMegaByte(File file) {
-        return getSizeInKiloByte(file) / 1024;
-    }
-
-    public static String getSt_SizeInKiloByte(File file) {
-        return String.valueOf(getSizeInKiloByte(file));
-    }
-
-    public static String getSt_SizeInMegaByte(File file) {
-        return String.valueOf(getSizeInMegaByte(file));
-    }
-
-    public static long getSizeInKiloByte(long size) {
-        return size / 1024;
-    }
-
-    public static long getSizeInMegaByte(long size) {
-        return getSizeInKiloByte(size) / 1024;
+        return file.isFile() && FilenameUtils.isExtension(file.getName(), FILE_EXTENSION_ZIP);
     }
 
     /**
