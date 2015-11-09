@@ -64,4 +64,8 @@ public class ComparatorFactory {
         }
         return new FileNameComparator();
     }
+    
+    public Comparator getImagePropertiesComparator() {
+        return new ImagePropertiesComparator();
+    }
 }

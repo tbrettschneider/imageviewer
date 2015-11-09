@@ -5,6 +5,7 @@
 package acdsee.gui.util;
 
 import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
 import java.awt.RenderingHints;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
@@ -93,5 +94,20 @@ public class ImageUtil {
         } while (w != targetWidth || h != targetHeight);
 
         return ret;
+    }
+
+    /**
+     * This one boosts performance twice... !!!!
+     *
+     * @param image
+     * @param gc
+     * @return
+     */
+    public static final BufferedImage toCompatibleImage(final BufferedImage image, final GraphicsConfiguration gc) {
+        final BufferedImage result = gc.createCompatibleImage(image.getWidth(), image.getHeight(), image.getColorModel().getTransparency());
+        final Graphics2D g2 = result.createGraphics();
+        g2.drawRenderedImage(image, null);
+        g2.dispose();
+        return result;
     }
 }

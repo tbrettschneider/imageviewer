@@ -182,21 +182,6 @@ public abstract class AbstractThumbnail extends JPanel implements Runnable, Adju
         this.imageWidth = imageWidth;
     }
 
-    /**
-     * This one boosts performance twice... !!!!
-     *
-     * @param image
-     * @param gc
-     * @return
-     */
-    protected final BufferedImage toCompatibleImage(final BufferedImage image, final GraphicsConfiguration gc) {
-        final BufferedImage result = gc.createCompatibleImage(image.getWidth(), image.getHeight(), image.getColorModel().getTransparency());
-        final Graphics2D g2 = result.createGraphics();
-        g2.drawRenderedImage(image, null);
-        g2.dispose();
-        return result;
-    }
-
     protected final BufferedImage getThumbnail(final BufferedImage a_image) {
         final BufferedImage thumbImg;
 

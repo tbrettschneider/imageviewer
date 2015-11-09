@@ -2,7 +2,6 @@ package acdsee.sorting.ui;
 
 import acdsee.gui.components.ThumbnailPane;
 import acdsee.sorting.comparator.ComparatorFactory;
-import acdsee.sorting.comparator.ImagePropertiesComparator;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Point;
@@ -11,7 +10,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
@@ -55,17 +53,16 @@ public class SortMenu extends JMenu {
             this.add(sortByModifiedDate);
             buttonGroup.add(sortByModifiedDate);
 
-            sortByImageProperties = new JRadioButtonMenuItem(new SortAction("Image Properties", new ImagePropertiesComparator()));
+            sortByImageProperties = new JRadioButtonMenuItem(new SortAction("Image Properties", cf.getImagePropertiesComparator()));
             this.add(sortByImageProperties);
             buttonGroup.add(sortByImageProperties);
 
             this.addSeparator();
 
-            this.add(new JCheckBoxMenuItem("Sort Forward"));
-            this.add(new JCheckBoxMenuItem("Sort Backward"));
+            this.add(new JRadioButtonMenuItem(new SortAction("Reverse Order", cf.getSizeComparator().reversed())));
         }
     }
-
+    
     public void setSortableContainer(Container container) {
         this.sortableContainer = container;
     }
