@@ -51,57 +51,6 @@ public class AcdSeeFrame extends javax.swing.JFrame {
         //getGlassPane().setVisible(true);
     }
 
-    /*
-     private void saveThumbs(File a_file) {
-     try {
-     Component[] components = thumbsCompositePanel.getComponents();
-     BufferedOutputStream ostr = new BufferedOutputStream(new FileOutputStream(a_file));
-     ObjectOutputStream oostr = new ObjectOutputStream(ostr);
-     oostr.writeInt(components.length);
-     for (int i=0, j=components.length; i<j; i++) {
-     FileThumbnail proxy = (FileThumbnail)components[i];
-     //proxy.writeExternal(oostr);
-     }
-     oostr.close();
-     ostr.close();
-     } catch (Exception e) {
-     System.out.println(e);
-     }
-     }
-
-     private void loadThumbs(final File a_file) {
-     new Thread() {
-
-     public void run() {
-     try {
-     BufferedInputStream bis = new BufferedInputStream(new FileInputStream(a_file));
-     ObjectInputStream ois = new ObjectInputStream(bis);
-
-
-     for (int i=0, j=ois.readInt(); i<j; i++) {
-     final FileThumbnail proxy = new FileThumbnail();
-     //proxy.readExternal(ois);
-     SwingUtilities.invokeLater(new Runnable() {
-     public void run() {
-     thumbsCompositePanel.add(proxy);
-     thumbsCompositePanel.revalidate();
-     thumbsCompositePanel.repaint();
-     }
-     });
-     };
-
-     ois.close();
-     bis.close();
-
-     } catch (Exception e) {
-     System.out.println(e);
-     }
-
-     thumbsCompositePanel.revalidate();
-     thumbsCompositePanel.repaint();
-     }
-     }.start();
-     }*/
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -436,11 +385,7 @@ public class AcdSeeFrame extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public static void main(String args[]) throws Exception {
-
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-
-        /* SplashScreen.showSplashScreen("ê:\\splash.jpg ");
-         Thread.sleep(2000);*/
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new AcdSeeFrame();
             frame.setExtendedState(JFrame.MAXIMIZED_BOTH);

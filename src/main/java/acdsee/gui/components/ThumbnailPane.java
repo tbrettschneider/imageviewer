@@ -42,10 +42,10 @@ public class ThumbnailPane extends JScrollPane {
 
     private static final Point UPPERLEFTCORNER = new Point(0, 0);
 
-    private static final int THUMB_MARGIN_LEFT = 10;
-    private static final int THUMB_MARGIN_RIGHT = 10;
-    private static final int THUMB_MARGIN_BOTTOM = 10;
-    private static final int THUMB_MARGIN_TOP = 10;
+    public static final int THUMB_MARGIN_LEFT = 10;
+    public static final int THUMB_MARGIN_RIGHT = 10;
+    public static final int THUMB_MARGIN_BOTTOM = 10;
+    public static final int THUMB_MARGIN_TOP = 10;
 
     
     private static ThumbnailPane thumbnailPane;

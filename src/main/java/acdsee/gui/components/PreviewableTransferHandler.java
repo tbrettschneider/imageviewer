@@ -1,5 +1,6 @@
 package acdsee.gui.components;
 
+import acdsee.gui.components.thumbnail.AbstractThumbnail;
 import java.awt.Cursor;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -127,7 +128,7 @@ public class PreviewableTransferHandler extends TransferHandler {
         }
         return isImage;
     }
-
+   
     private ZipEntryThumbnail getZipEntryFromDnD(final Transferable t) throws UnsupportedFlavorException, IOException {
         final ZipEntryThumbnail zipEntryThumb = (ZipEntryThumbnail) t.getTransferData(DataFlavor.javaFileListFlavor);
         return zipEntryThumb;
@@ -137,7 +138,6 @@ public class PreviewableTransferHandler extends TransferHandler {
         final List files = new ArrayList();
         files.addAll((List) t.getTransferData(DataFlavor.javaFileListFlavor));
         files.addAll((List) t.getTransferData(DataFlavor.stringFlavor));
-        System.out.println(files);
         return (File) files.get(0);
     }
 

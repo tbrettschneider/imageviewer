@@ -87,7 +87,6 @@ public abstract class AbstractThumbnail extends JPanel implements Runnable, Adju
     @Override
     protected final void paintComponent(final Graphics g) {
         if (!executed && !movingAround) {
-//        if (isShowing()) {
             exec.execute(this);
             executed = true;
         }
@@ -123,7 +122,7 @@ public abstract class AbstractThumbnail extends JPanel implements Runnable, Adju
     private BufferedImage loadOriginalImageOfThumbnail(final int subsampling) {
         try {
             return loadOriginalImageOfThumbnail(subsampling, getImageInputStream());
-        } catch (IOException ex) {
+        } catch (IOException e) {
             return null;
         }
     }
@@ -305,7 +304,7 @@ public abstract class AbstractThumbnail extends JPanel implements Runnable, Adju
 
     @Override
     public boolean isDataFlavorSupported(DataFlavor flavor) {
-        return flavor == DataFlavor.javaFileListFlavor;
+        return flavor.equals(DataFlavor.javaFileListFlavor);
     }
 
     public void setSelected(boolean selected) {
