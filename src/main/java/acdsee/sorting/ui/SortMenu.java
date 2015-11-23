@@ -86,13 +86,7 @@ public class SortMenu extends JMenu {
             Arrays.sort(thumbnails, comparator);
             sortableContainer.removeAll();
             Arrays.stream(thumbnails).parallel().forEach(thumb -> sortableContainer.add(thumb));
-
             tp.getViewport().setViewPosition(new Point(0, 0));
-
-            /*if (sortableContainer.getParent().getParent() instanceof JViewport) {
-             JViewport viewPort = (JViewport) sortableContainer.getParent().getParent();
-             viewPort.setViewPosition(new Point(0, 0));
-             }*/
             sortableContainer.invalidate();
             sortableContainer.validate();
             sortableContainer.repaint();

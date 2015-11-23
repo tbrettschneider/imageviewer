@@ -6,18 +6,11 @@
 package acdsee.gui.dialogs;
 
 import acdsee.base.Walkable;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.tree.TreePath;
-
-
 import acdsee.gui.actions.FullscreenAction;
 import acdsee.gui.components.CoolGlassPane;
 import acdsee.gui.components.PreviewPane;
 import acdsee.gui.components.ThumbnailPane;
+import acdsee.gui.components.directorybox.LimitedEntriesComboxBoxModel;
 import acdsee.gui.components.explorer.DirectoryTreeNode;
 import acdsee.gui.util.UIUtils;
 import acdsee.sorting.ui.SortMenu;
@@ -25,6 +18,12 @@ import java.awt.Dimension;
 import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.tree.TreePath;
 
 /**
  *
@@ -96,6 +95,7 @@ public class AcdSeeFrame extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         splitpaneH = new javax.swing.JSplitPane();
         panelRight = new javax.swing.JPanel();
+        comboboxLocation = new acdsee.gui.components.directorybox.DirectoryBox();
         thumbnailPane = ThumbnailPane.getThumbnailPane();
         splitpaneV = new javax.swing.JSplitPane();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -256,6 +256,7 @@ public class AcdSeeFrame extends javax.swing.JFrame {
 
         panelRight.setBackground(new java.awt.Color(204, 204, 204));
         panelRight.setLayout(new java.awt.BorderLayout());
+        panelRight.add(comboboxLocation, java.awt.BorderLayout.NORTH);
 
         thumbnailPane.setForeground(new java.awt.Color(255, 255, 255));
         panelRight.add(thumbnailPane, java.awt.BorderLayout.CENTER);
@@ -343,8 +344,8 @@ public class AcdSeeFrame extends javax.swing.JFrame {
                 }
             }
         }.start();*/
-        //comboboxLocation.setSelectedItem(node.getDirectory());
-        //((LimitedEntriesComboxBoxModel)comboboxLocation.getModel()).addElement(node.getDirectory());
+        comboboxLocation.setSelectedItem(node.getDirectory());
+        ((LimitedEntriesComboxBoxModel)comboboxLocation.getModel()).addElement(node.getDirectory());
     }//GEN-LAST:event_treeFilesystemValueChanged
 
     private void menuitemOptionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuitemOptionsActionPerformed
@@ -394,6 +395,7 @@ public class AcdSeeFrame extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private acdsee.gui.components.directorybox.DirectoryBox comboboxLocation;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;

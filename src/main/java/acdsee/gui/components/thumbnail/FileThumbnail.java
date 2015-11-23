@@ -24,7 +24,7 @@ import net.coobird.thumbnailator.tasks.UnsupportedFormatException;
 
 import sun.awt.shell.ShellFolder;
 
-public class FileThumbnail extends AbstractThumbnail /*, Externalizable */ {
+public class FileThumbnail extends AbstractThumbnail {
 
     private static final Logger LOGGER = Logger.getLogger(FileThumbnail.class.getName());
 

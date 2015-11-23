@@ -10,14 +10,12 @@ package acdsee.sorting.comparator;
 
 import acdsee.base.Walkable;
 import acdsee.base.ZipFile;
-import acdsee.io.util.FileHelper;
 import acdsee.sorting.comparator.file.FileLastModifiedComparator;
 import acdsee.sorting.comparator.file.FileNameComparator;
 import acdsee.sorting.comparator.file.FileSizeComparator;
 import acdsee.sorting.comparator.zipentry.ZipEntryLastModifiedComparator;
 import acdsee.sorting.comparator.zipentry.ZipEntryNameComparator;
 import acdsee.sorting.comparator.zipentry.ZipEntrySizeComparator;
-import java.io.File;
 import java.util.Comparator;
 
 /**
