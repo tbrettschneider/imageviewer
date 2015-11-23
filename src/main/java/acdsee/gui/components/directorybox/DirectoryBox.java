@@ -40,11 +40,9 @@ public class DirectoryBox extends JComboBox {
         setEditor(new MyComboBoxEditor());
         setOpaque(false);
         setRenderer(new MyComboBoxRenderer());
-        /*addActionListener(new java.awt.event.ActionListener() {
-         public void actionPerformed(java.awt.event.ActionEvent evt) {
-         comboboxLocationActionPerformed(evt);
-         }
-         });*/
+        addActionListener((java.awt.event.ActionEvent evt) -> {
+            System.out.println(evt);
+        });
     }
 
     private class MyComboBoxEditor extends JPanel implements ComboBoxEditor, FocusListener {
