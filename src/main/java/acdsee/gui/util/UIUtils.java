@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
-import java.awt.Window;
 import java.io.File;
 import java.io.IOException;
 
@@ -75,24 +74,11 @@ public class UIUtils {
     }
 
     /**
-     * Centers window on screen.
-     *
-     * @param window
-     */
-    public static void centerWindow(Window window) {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Dimension windowSize = window.getSize();
-        window.setLocation(
-                (screenSize.width - windowSize.width) / 2,
-                (screenSize.height - windowSize.height) / 2);
-    }
-
-    /**
      * Centers component on screen.
      *
      * @param component
      */
-    public static void centerComponent(Component component) {
+    public static void centerOnScreen(Component component) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension componentSize = component.getPreferredSize();
         component.setLocation(
