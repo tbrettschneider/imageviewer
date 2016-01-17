@@ -31,7 +31,7 @@ public class DirectoryTreeNode extends DefaultMutableTreeNode implements Transfe
 
     private final FileSystemView fileSystemView;
 
-    private boolean childrenAreLoaded;
+    private boolean childrenLoaded;
 
     /**
      * Erzeuge ein Verzeichnisbaumknoten zu einem Verzeichnis und einer
@@ -40,7 +40,7 @@ public class DirectoryTreeNode extends DefaultMutableTreeNode implements Transfe
     private DirectoryTreeNode(File directory, FileSystemView fileSystemView) {
         super(directory);
         this.fileSystemView = fileSystemView;
-        childrenAreLoaded = false;
+        childrenLoaded = false;
     }
 
     /**
@@ -60,7 +60,7 @@ public class DirectoryTreeNode extends DefaultMutableTreeNode implements Transfe
      * Füge diesem Knoten Kinder zu.
      */
     private void addChildren(File[] children) {
-        childrenAreLoaded = true;
+        childrenLoaded = true;
         for (File child : children) {
             add(new DirectoryTreeNode(child, fileSystemView));
         }
@@ -81,7 +81,7 @@ public class DirectoryTreeNode extends DefaultMutableTreeNode implements Transfe
      * Versichere, dass die Kinder geladen sind.
      */
     public void ensureChildrenAreLoaded() {
-        if (!childrenAreLoaded) {
+        if (!childrenLoaded) {
             loadChildren();
         }
     }
@@ -118,7 +118,7 @@ public class DirectoryTreeNode extends DefaultMutableTreeNode implements Transfe
 
     @Override
     public boolean isLeaf() {
-        return childrenAreLoaded && super.isLeaf();
+        return childrenLoaded && super.isLeaf();
     }
 
     /**
@@ -128,31 +128,15 @@ public class DirectoryTreeNode extends DefaultMutableTreeNode implements Transfe
      * Knoten zu.
      */
     private void loadChildren() {
-        childrenAreLoaded = true;
-
-        File[] fileList = fileSystemView.getFiles(getDirectory(), false);
-
-        if (null == fileList) {
-            return;
-        }
-
-        // Sammle die traversierbaren Unterordner.
-        List<File> childDirectories = new ArrayList<>();
-        for (File file : fileList) {
-            // ATWORK!
+        childrenLoaded = true;
+        File[] files = fileSystemView.getFiles(getDirectory(), true);
+        List<File> children = new ArrayList<>();
+        for (File file : files) {
             if (fileSystemView.isTraversable(file) || FileHelper.isZIP(file)) {
-                childDirectories.add(file);
+                children.add(file);
+                add(new DirectoryTreeNode(file, fileSystemView));
             }
-            //ADDED 
-            add(new DirectoryTreeNode(file, fileSystemView));
-        } // Sortiere die Unterordner.
-//		Collections.sort(childDirectories);
-        // Erzeuge die Kinderknoten und füge sie diesem Knoten zu.
-//		Iterator i = childDirectories.iterator();
-//		while (i.hasNext()) {
-//			File aDirectory = (File) i.next();
-//			add(new DirectoryTreeNode(aDirectory, fileSystemView));
-//		}
+        }
     }
 
     @Override
