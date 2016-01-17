@@ -10,18 +10,21 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 
 /**
- *
+ * 
  * @author tommy
  */
 public class Directory extends Walkable<File, File> {
     
-    public Directory(File directory) {
-        this.source = directory;
+    public Directory(final File file) {
+        if (file.isDirectory()) {
+            this.source = file;
+        } else {
+            throw new IllegalArgumentException(file.getAbsolutePath() + " is not a directory.");
+        }
     }
     
     @Override
     public Stream<File> getChildren() {
-        File directory = getSource();
-        return Arrays.stream(directory.listFiles()).parallel();
+        return Arrays.stream(getSource().listFiles()).parallel();
     }    
 }
