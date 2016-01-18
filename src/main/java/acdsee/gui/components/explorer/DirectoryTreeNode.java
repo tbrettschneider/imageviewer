@@ -1,7 +1,6 @@
 package acdsee.gui.components.explorer;
 
 import acdsee.io.util.FileHelper;
-import acdsee.sorting.comparator.file.FileNameComparator;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -9,7 +8,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.List;
 
