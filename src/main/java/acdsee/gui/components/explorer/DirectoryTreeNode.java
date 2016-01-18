@@ -1,18 +1,22 @@
 package acdsee.gui.components.explorer;
 
 import acdsee.io.util.FileHelper;
+import acdsee.sorting.comparator.file.FileNameComparator;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.List;
 
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
+import org.apache.commons.io.comparator.NameFileComparator;
 
 /**
  * Eine TreeNode-Implementierung zur Abbildung der Baumstruktur eines
@@ -130,6 +134,7 @@ public class DirectoryTreeNode extends DefaultMutableTreeNode implements Transfe
     private void loadChildren() {
         childrenLoaded = true;
         File[] files = fileSystemView.getFiles(getDirectory(), true);
+        Arrays.parallelSort(files, NameFileComparator.NAME_COMPARATOR);
         List<File> children = new ArrayList<>();
         for (File file : files) {
             if (fileSystemView.isTraversable(file) || FileHelper.isZIP(file)) {
