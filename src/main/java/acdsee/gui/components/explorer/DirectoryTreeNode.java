@@ -6,10 +6,8 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
-import java.util.List;
 
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -63,9 +61,7 @@ public class DirectoryTreeNode extends DefaultMutableTreeNode implements Transfe
      */
     private void addChildren(File[] children) {
         childrenLoaded = true;
-        for (File child : children) {
-            add(new DirectoryTreeNode(child, fileSystemView));
-        }
+        Arrays.stream(children).forEach(child->add(new DirectoryTreeNode(child, fileSystemView)));
     }
 
     /**
@@ -131,17 +127,12 @@ public class DirectoryTreeNode extends DefaultMutableTreeNode implements Transfe
      */
     private void loadChildren() {
         childrenLoaded = true;
-        File[] files = fileSystemView.getFiles(getDirectory(), true);
-        Arrays.parallelSort(files, NameFileComparator.NAME_COMPARATOR);
-        List<File> children = new ArrayList<>();
-        for (File file : files) {
-            if (fileSystemView.isTraversable(file) || FileHelper.isZIP(file)) {
-                children.add(file);
-                add(new DirectoryTreeNode(file, fileSystemView));
-            }
+        Arrays.stream(fileSystemView.getFiles(getDirectory(), true))
+            .sorted(NameFileComparator.NAME_SYSTEM_COMPARATOR)
+            .filter(file->fileSystemView.isTraversable(file) || FileHelper.isZIP(file))
+            .forEach(file->add(new DirectoryTreeNode(file, fileSystemView)));
         }
-    }
-
+    
     @Override
     public Object getTransferData(DataFlavor arg0) throws UnsupportedFlavorException, IOException {
         throw new UnsupportedOperationException("Not supported yet.");
