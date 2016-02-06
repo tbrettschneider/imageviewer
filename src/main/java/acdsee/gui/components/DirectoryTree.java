@@ -31,8 +31,8 @@ import acdsee.gui.components.explorer.DirectoryTreeNode;
 
 /**
  * Diese Klasse bietet einen Dialog zur Auswahl eines Verzeichnisses. Sie
- * demonstriert einige Mˆglichkeiten der J2SE 1.4 zur Anbindung eines
- * Dateisystems an eine grafische Benutzeroberfl‰che.
+ * demonstriert einige M√∂glichkeiten der J2SE 1.4 zur Anbindung eines
+ * Dateisystems an eine grafische Benutzeroberfl√§che.
  */
 public class DirectoryTree extends JTree {
 
@@ -58,7 +58,7 @@ public class DirectoryTree extends JTree {
         // Setze einen JFileChooser-artigen Renderer.
         setCellRenderer(createDirectoryTreeRenderer());
 
-        // Reagiere auf ƒnderungen der Baumselektion.
+        // Reagiere auf √Ñnderungen der Baumselektion.
         addTreeSelectionListener((TreeSelectionEvent e) -> {
         });
 
@@ -148,7 +148,7 @@ public class DirectoryTree extends JTree {
 
     /**
      * Liefere den System-spezifischen Namen zum Verzeichnis. Vor der J2SE 1.4
-     * h‰tte man hier den Dateinamen etwa mittels
+     * h√§tte man hier den Dateinamen etwa mittels
      * <code>directory.getName()</code>angezeigt.
      */
     private String getSystemDisplayName(File directory) {
@@ -157,7 +157,7 @@ public class DirectoryTree extends JTree {
 
     /**
      * Liefere das System-spezifische Icon zum Verzeichnis. Vor der J2SE 1.4
-     * h‰tte man hier auf die Datei-Icons des aktuellen Look&Feel zugegriffen.
+     * h√§tte man hier auf die Datei-Icons des aktuellen Look&Feel zugegriffen.
      */
     private Icon getSystemIcon(File file, boolean isSelected) {
         return fileSystemView.getSystemIcon(file);

@@ -96,7 +96,7 @@ public class SetupProxyDialog extends javax.swing.JDialog {
             }
         });
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Proxies für den Zugriff auf das Internet konfigurieren", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 0)));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Proxies fuer den Zugriff auf das Internet konfigurieren"));
 
         buttonGroup1.add(rb_directConnection);
         rb_directConnection.setSelected(true);
@@ -120,7 +120,7 @@ public class SetupProxyDialog extends javax.swing.JDialog {
         });
 
         buttonGroup1.add(rb_connectionDetection);
-        rb_connectionDetection.setText("Die Proxy-Einstellungen für dieses Netzwerk automatisch erkennen");
+        rb_connectionDetection.setText("Die Proxy-Einstellungen fuer dieses Netzwerk automatisch erkennen");
         rb_connectionDetection.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         rb_connectionDetection.setMargin(new java.awt.Insets(0, 0, 0, 0));
         rb_connectionDetection.addActionListener(new java.awt.event.ActionListener() {
@@ -131,7 +131,7 @@ public class SetupProxyDialog extends javax.swing.JDialog {
 
         jPanel2.setEnabled(false);
 
-        jLabel11.setText("Kein Proxy für:");
+        jLabel11.setText("Kein Proxy fuer:");
         jLabel11.setEnabled(false);
 
         httpProxyPort.setEnabled(false);
@@ -146,7 +146,7 @@ public class SetupProxyDialog extends javax.swing.JDialog {
 
         httpProxyURL.setEnabled(false);
 
-        cb_useSameProxyForAllProtocols.setText("Für alle Protokolle diesen Proxyserver verwenden");
+        cb_useSameProxyForAllProtocols.setText("Fuer alle Protokolle diesen Proxyserver verwenden");
         cb_useSameProxyForAllProtocols.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         cb_useSameProxyForAllProtocols.setEnabled(false);
         cb_useSameProxyForAllProtocols.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -225,7 +225,7 @@ public class SetupProxyDialog extends javax.swing.JDialog {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(ftpProxyURL, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(sslProxyURL, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                        .addComponent(sslProxyURL, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(gopherProxyURL, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(socksHostURL, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -237,9 +237,8 @@ public class SetupProxyDialog extends javax.swing.JDialog {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(socksPortLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(socksHostPort))
+                        .addComponent(socksHostPort, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(gopherProxyPortLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(gopherProxyPort))
@@ -300,18 +299,16 @@ public class SetupProxyDialog extends javax.swing.JDialog {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(httpProxyLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(httpProxyURL, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addComponent(httpProxyURL, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(httpProxyPortLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(httpProxyPort, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(httpProxyPort, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField11, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
+                .addComponent(jTextField11)
                 .addContainerGap())
             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
@@ -376,7 +373,7 @@ public class SetupProxyDialog extends javax.swing.JDialog {
                         .addComponent(buttonReload)))
                 .addGap(42, 42, 42))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(44, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -408,7 +405,7 @@ public class SetupProxyDialog extends javax.swing.JDialog {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(249, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(buttonOK, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -428,6 +425,8 @@ public class SetupProxyDialog extends javax.swing.JDialog {
                     .addComponent(buttonOK))
                 .addContainerGap())
         );
+
+        jPanel1.getAccessibleContext().setAccessibleName("Proxies fuer den Zugriff auf das Internet konfigurieren");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

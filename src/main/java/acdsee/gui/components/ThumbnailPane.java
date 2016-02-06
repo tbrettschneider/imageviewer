@@ -77,7 +77,7 @@ public class ThumbnailPane extends JScrollPane {
     }
     
     /**
-     * Creates a new instance of ThumbnailPane
+     * Constructor.
      */
     public ThumbnailPane() {
         super();
@@ -94,9 +94,7 @@ public class ThumbnailPane extends JScrollPane {
                         Walkable walkable = Walkable.getInstance(f);
                         setSource(walkable);
                     }
-                }
-                
-                if (SwingUtilities.isRightMouseButton(evt)) {
+                } else if (SwingUtilities.isRightMouseButton(evt)) {
                     JPopupMenu popup = new JPopupMenu();
                     
                     // Desktop integration...
@@ -145,14 +143,13 @@ public class ThumbnailPane extends JScrollPane {
                 }
                 
                 try {
-//                statusbarLabelTotalObjects.setText("Total " + proxy.getFile().getParentFile().listFiles().length + " objects (" + FileHelper.getSizeInMegaByte(FileHelper.getFileOrDirectorySize(proxy.getFile().getParentFile())) + " MB)");
-//                statusbarLabelFileProps.setText(FileHelper.getSt_SizeInKiloByte(proxy.getFile()) + " KB, Modified Date: " + FileHelper.getSt_LastModified(proxy.getFile()));
-//                statusbarLabelFileName.setText(proxy.getFile().getName());
-//                statusbarLabelFileIcon.setIcon(FileSystemView.getFileSystemView().getSystemIcon(proxy.getFile()));
-//                statusbarLabelImgProps.setText(proxy.getImageWidth() + "x" + proxy.getImageHeight() + "x" + proxy.getImageDepth());
                     
                     if (evt.getClickCount() > 1) {
-//                        Desktop.getDesktop().open(((FileThumbnail)proxy).getFile());
+                        // Bild öffnen über OS
+                        if (Desktop.isDesktopSupported()) {
+                            
+                        }
+                        Desktop.getDesktop().open(((FileThumbnail)proxy).getFile());
                         final JFrame w = new JFrame();
                         w.setExtendedState(JFrame.MAXIMIZED_BOTH);
                         

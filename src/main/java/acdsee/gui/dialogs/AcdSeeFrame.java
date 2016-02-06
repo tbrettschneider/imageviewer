@@ -351,7 +351,7 @@ public class AcdSeeFrame extends javax.swing.JFrame {
     private void menuitemOptionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuitemOptionsActionPerformed
         // TODO add your handling code here:
         SetupProxyDialog connectionSettings = new SetupProxyDialog(this, true);
-        UIUtils.centerWindow(connectionSettings);
+        UIUtils.centerOnScreen(connectionSettings);
         connectionSettings.setVisible(true);
         connectionSettings.requestFocusInWindow();
     }//GEN-LAST:event_menuitemOptionsActionPerformed

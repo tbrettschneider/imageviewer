@@ -43,7 +43,7 @@ public abstract class AbstractThumbnail extends JPanel implements Runnable, Adju
     protected static int thumbnailWidth = 135;
     protected static int thumbnailHeight = 135;
     protected static final float thumbnailRatio = thumbnailWidth / thumbnailHeight;
-    protected static final int maxPixelsThumbnail = thumbnailWidth * thumbnailHeight * 32; //höher ist besser!
+    protected static final int maxPixelsThumbnail = thumbnailWidth * thumbnailHeight * 32; //hÃ¶her ist besser!
     protected static Dimension THUMB_DIM = new Dimension(thumbnailWidth, thumbnailHeight);
     protected int subsampling = 1;
     protected int imageWidth, imageHeight;

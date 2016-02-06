@@ -11,11 +11,11 @@ package acdsee.gui.components;
  */
 public enum ImageDisplayMode {
     
-    AUTORESIZE("Autom. Größe", -1.0f),
-    FULLSIZE("Vollbildgröße", 1.0f),
-    HALFSIZE("1/2 Größe", 0.5f),
-    QUARTERSIZE("1/4 Größe", 0.25f),
-    EIGHTHSIZE("1/8 Größe", 0.125f);
+    AUTORESIZE("Autom. GrÃ¶ÃŸe", -1.0f),
+    FULLSIZE("VollbildgrÃ¶ÃŸe", 1.0f),
+    HALFSIZE("1/2 GrÃ¶ÃŸe", 0.5f),
+    QUARTERSIZE("1/4 GrÃ¶ÃŸe", 0.25f),
+    EIGHTHSIZE("1/8 GrÃ¶ÃŸe", 0.125f);
 
     ImageDisplayMode(String label, float scale) {
         this.label = label;

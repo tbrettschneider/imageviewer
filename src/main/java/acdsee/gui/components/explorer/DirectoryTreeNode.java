@@ -20,9 +20,9 @@ import org.apache.commons.io.comparator.NameFileComparator;
  * Kinder eines Knoten sichergestellt, dass die Kinder "geladen" sind. Laden
  * bedeutet hier, dass diejenigen Verzeichnisse, die die verwendete
  * Dateisystemsicht zu einem Ordner liefert, ermittelt worden sind und als
- * Baumkinder zugefügt sind.
+ * Baumkinder zugefÃ¼gt sind.
  *
- * Werden die Fähigkeiten der Oberklasse DefaultMutableTreeNode nicht benötigt,
+ * Werden die FÃ¤higkeiten der Oberklasse DefaultMutableTreeNode nicht benÃ¶tigt,
  * kann TreeNode auch direkt implementiert werden.
  *
  * @author Karsten Lentzsch
@@ -57,7 +57,7 @@ public class DirectoryTreeNode extends DefaultMutableTreeNode implements Transfe
     }
 
     /**
-     * Füge diesem Knoten Kinder zu.
+     * FÃ¼ge diesem Knoten Kinder zu.
      */
     private void addChildren(File[] children) {
         childrenLoaded = true;
@@ -65,7 +65,7 @@ public class DirectoryTreeNode extends DefaultMutableTreeNode implements Transfe
     }
 
     /**
-     * Liefere eine Aufzählung der Kinder. Stelle sicher, dass die Kinder
+     * Liefere eine AufzÃ¤hlung der Kinder. Stelle sicher, dass die Kinder
      * geladen sind.
      * @return 
      */
@@ -122,7 +122,7 @@ public class DirectoryTreeNode extends DefaultMutableTreeNode implements Transfe
     /**
      * Ermittle die von der Dateisystemsicht gelieferten Kinder dieses Ordners.
      * Unter diesen filtere die traversierbaren Ordner heraus, sortiere sie mit
-     * dem Standard-Comparator, erzeuge die Kinderknoten und füge sie diesem
+     * dem Standard-Comparator, erzeuge die Kinderknoten und fÃ¼ge sie diesem
      * Knoten zu.
      */
     private void loadChildren() {

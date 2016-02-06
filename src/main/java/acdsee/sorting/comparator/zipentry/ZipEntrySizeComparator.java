@@ -1,7 +1,7 @@
 /*
  * ZipEntrySizeComparator.java
  *
- * Created on 26. März 2007, 21:05
+ * Created on 26. MÃ¤rz 2007, 21:05
  *
  * To change this template, choose Tools | Template Manager
  * and open the template in the editor.
