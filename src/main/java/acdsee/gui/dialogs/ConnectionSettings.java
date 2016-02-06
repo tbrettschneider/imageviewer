@@ -105,7 +105,7 @@ public class ConnectionSettings extends javax.swing.JFrame {
             }
         });
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Proxies fuer den Zugriff auf das Internet konfigurieren"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Proxies für den Zugriff auf das Internet konfigurieren"));
 
         buttonGroup1.add(rb_directConnection);
         rb_directConnection.setSelected(true);
@@ -129,7 +129,7 @@ public class ConnectionSettings extends javax.swing.JFrame {
         });
 
         buttonGroup1.add(rb_connectionDetection);
-        rb_connectionDetection.setText("Die Proxy-Einstellungen fuer dieses Netzwerk automatisch erkennen");
+        rb_connectionDetection.setText("Die Proxy-Einstellungen für dieses Netzwerk automatisch erkennen");
         rb_connectionDetection.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         rb_connectionDetection.setMargin(new java.awt.Insets(0, 0, 0, 0));
         rb_connectionDetection.addActionListener(new java.awt.event.ActionListener() {
@@ -140,7 +140,7 @@ public class ConnectionSettings extends javax.swing.JFrame {
 
         jPanel2.setEnabled(false);
 
-        jLabel11.setText("Kein Proxy fuer:");
+        jLabel11.setText("Kein Proxy für:");
         jLabel11.setEnabled(false);
 
         httpProxyPort.setEnabled(false);
@@ -155,7 +155,7 @@ public class ConnectionSettings extends javax.swing.JFrame {
 
         httpProxyURL.setEnabled(false);
 
-        cb_useSameProxyForAllProtocols.setText("Fuer alle Protokolle diesen Proxyserver verwenden");
+        cb_useSameProxyForAllProtocols.setText("Für alle Protokolle diesen Proxyserver verwenden");
         cb_useSameProxyForAllProtocols.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         cb_useSameProxyForAllProtocols.setEnabled(false);
         cb_useSameProxyForAllProtocols.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -440,8 +440,6 @@ public class ConnectionSettings extends javax.swing.JFrame {
                     .add(buttonOK))
                 .addContainerGap())
         );
-
-        jPanel1.getAccessibleContext().setAccessibleName("Proxies fuer den Zugriff auf das Internet konfigurieren");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

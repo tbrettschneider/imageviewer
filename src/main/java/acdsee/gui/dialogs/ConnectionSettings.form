@@ -88,13 +88,10 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Proxies fuer den Zugriff auf das Internet konfigurieren"/>
+            <TitledBorder title="Proxies f&#xfc;r den Zugriff auf das Internet konfigurieren"/>
           </Border>
         </Property>
       </Properties>
-      <AccessibilityProperties>
-        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Proxies fuer den Zugriff auf das Internet konfigurieren"/>
-      </AccessibilityProperties>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -189,7 +186,7 @@
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
               <ComponentRef name="buttonGroup1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Die Proxy-Einstellungen fuer dieses Netzwerk automatisch erkennen"/>
+            <Property name="text" type="java.lang.String" value="Die Proxy-Einstellungen f&#xfc;r dieses Netzwerk automatisch erkennen"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder bottom="0" left="0" right="0" top="0"/>
@@ -273,7 +270,7 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="jLabel11">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Kein Proxy fuer:"/>
+                <Property name="text" type="java.lang.String" value="Kein Proxy f&#xfc;r:"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
@@ -306,7 +303,7 @@
             </Component>
             <Component class="javax.swing.JCheckBox" name="cb_useSameProxyForAllProtocols">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Fuer alle Protokolle diesen Proxyserver verwenden"/>
+                <Property name="text" type="java.lang.String" value="F&#xfc;r alle Protokolle diesen Proxyserver verwenden"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                     <EmptyBorder bottom="0" left="0" right="0" top="0"/>

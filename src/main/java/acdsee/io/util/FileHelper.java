@@ -1,3 +1,4 @@
+
 package acdsee.io.util;
 
 import java.io.File;
@@ -24,7 +25,7 @@ public class FileHelper {
      * @return the size of the given file or directory as a long value. Returns
      * -1 if an I/O error occurs.
      */
-    public static long getFileOrDirectorySize(File file) {
+    public static long getFileSize(File file) {
         if (file.isDirectory()) {
             return Arrays.stream(file.listFiles()).parallel().mapToLong(f -> f.length()).sum();
         }
