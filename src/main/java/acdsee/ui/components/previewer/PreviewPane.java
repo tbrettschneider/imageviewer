@@ -34,9 +34,13 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 import static acdsee.ui.imaging.ImageDisplayMode.*;
+import java.util.logging.Logger;
 
 public class PreviewPane extends JPanel implements IPreviewPane {
 
+    private static final Logger LOGGER = Logger.getLogger(PreviewPane.class.getName()); 
+    private static final String PROPERTY_DISPLAYMODE = "displayMode";
+    
     private final IImageCache imageCache;
     private ImageIcon icon;
     private JScrollPane scrollpane;
@@ -70,7 +74,7 @@ public class PreviewPane extends JPanel implements IPreviewPane {
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                System.out.println("component resized...");
+                LOGGER.info("previewpane resized");
                 final BufferedImage currentImg = imageCache.getCurrentImage();
                 if (getDisplayMode().equals(AUTORESIZE) && currentImg != null) {
                     final BufferedImage autoresizedImg = imageCache.proportionalScale(currentImg, AUTORESIZE);
@@ -86,7 +90,7 @@ public class PreviewPane extends JPanel implements IPreviewPane {
             }
         });
         addPropertyChangeListener((PropertyChangeEvent e) -> {
-            if (e.getPropertyName().equals("displayMode") && imageCache.getCurrentImage() != null) {
+            if (e.getPropertyName().equals(PROPERTY_DISPLAYMODE) && imageCache.getCurrentImage() != null) {
                 executorService.execute(refreshImageJob);
             }
         });
@@ -182,7 +186,7 @@ public class PreviewPane extends JPanel implements IPreviewPane {
     @Override
     public void setDisplayMode(final ImageDisplayMode displayMode) {
         if (!this.displayMode.equals(displayMode)) {
-            firePropertyChange("displayMode", this.displayMode, displayMode);
+            firePropertyChange(PROPERTY_DISPLAYMODE, this.displayMode, displayMode);
             this.displayMode = displayMode;
 
             if (getDisplayMode().equals(AUTORESIZE)) {

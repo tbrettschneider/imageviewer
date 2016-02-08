@@ -1,13 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package acdsee.base;
 
 import acdsee.io.util.FileHelper;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -19,6 +16,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @param <ChildType>
  */
 public abstract class Walkable<Source, ChildType> {
+    
+    private final static Logger LOGGER = Logger.getLogger(Walkable.class.getName()); 
     
     protected Source source;
     
@@ -44,8 +43,7 @@ public abstract class Walkable<Source, ChildType> {
                 try {
                     walkable = new ZipFile(new java.util.zip.ZipFile(file));
                 } catch (IOException e) {
-                    //TODO 
-                    e.printStackTrace();
+                    LOGGER.log(Level.WARNING, e.getMessage());
                 }
             }
         }

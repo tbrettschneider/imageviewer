@@ -1,11 +1,3 @@
-/*
- * LimitedEntriesComboxBoxModel.java
- *
- * Created on 6. November 2006, 14:01
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
 package acdsee.ui.components.directorybox;
 
 import java.io.Serializable;

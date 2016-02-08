@@ -1,6 +1,3 @@
-/**
- *
- */
 package acdsee.ui.components.previewer;
 
 import acdsee.ui.imaging.ImageDisplayMode;

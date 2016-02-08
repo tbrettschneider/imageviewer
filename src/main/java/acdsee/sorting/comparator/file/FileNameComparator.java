@@ -1,11 +1,3 @@
-/*
- * FileNameComparator.java
- *
- * Created on 1. Dezember 2006, 13:32
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
 package acdsee.sorting.comparator.file;
 
 import java.util.Comparator;

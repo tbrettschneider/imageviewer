@@ -1,11 +1,3 @@
-/*
- * DeleteAction.java
- *
- * Created on 4. Dezember 2006, 19:56
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
 package acdsee.ui.actions;
 
 import acdsee.ui.components.thumbnail.FileThumbnail;

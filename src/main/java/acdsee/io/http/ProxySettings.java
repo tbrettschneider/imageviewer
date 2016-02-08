@@ -1,6 +1,3 @@
-/**
- *
- */
 package acdsee.io.http;
 
 import java.io.Serializable;

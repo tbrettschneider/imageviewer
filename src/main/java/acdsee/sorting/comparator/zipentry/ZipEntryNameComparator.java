@@ -1,11 +1,3 @@
-/*
- * ZipEntryNameComparator.java
- *
- * Created on 26. März 2007, 21:08
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
 package acdsee.sorting.comparator.zipentry;
 
 import acdsee.ui.components.thumbnail.ZipEntryThumbnail;

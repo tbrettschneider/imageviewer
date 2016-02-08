@@ -1,10 +1,3 @@
-/**
- * ****************************************************************************
- * ChangeLog:
- *
- * 18.07.2003 TB Anzeige des Verzeichnispfades als Tooltip im Tree
- *
- */
 package acdsee.ui.components.explorer;
 
 import java.awt.Component;

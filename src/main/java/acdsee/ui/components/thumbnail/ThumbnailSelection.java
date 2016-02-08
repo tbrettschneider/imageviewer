@@ -17,7 +17,6 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import acdsee.ui.components.thumbnail.Thumbnail;
 import acdsee.ui.util.BaseMouseListener;
 
 public class ThumbnailSelection extends JPanel {

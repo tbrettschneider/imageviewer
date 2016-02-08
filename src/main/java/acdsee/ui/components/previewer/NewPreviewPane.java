@@ -1,11 +1,3 @@
-/*
- * NewPreviewPane.java
- *
- * Created on 5. Juli 2007, 20:44
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
 package acdsee.ui.components.previewer;
 
 import java.awt.BorderLayout;

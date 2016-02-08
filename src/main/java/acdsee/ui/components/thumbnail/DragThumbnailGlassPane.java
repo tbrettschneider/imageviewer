@@ -1,6 +1,5 @@
 package acdsee.ui.components.thumbnail;
 
-import acdsee.ui.components.thumbnail.Thumbnail;
 import java.awt.AlphaComposite;
 import java.awt.Composite;
 import java.awt.Graphics;

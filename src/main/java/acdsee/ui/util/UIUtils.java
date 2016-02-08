@@ -17,8 +17,8 @@ import javax.swing.filechooser.FileSystemView;
 import sun.awt.shell.ShellFolder;
 
 /**
- * @author A310335
- *
+ * 
+ * @author Tommy Brettschneider
  */
 public class UIUtils {
 

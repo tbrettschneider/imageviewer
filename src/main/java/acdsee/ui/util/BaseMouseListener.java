@@ -1,6 +1,3 @@
-/**
- *
- */
 package acdsee.ui.util;
 
 import java.awt.event.MouseEvent;

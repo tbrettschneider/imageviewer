@@ -1,8 +1,3 @@
-/*
- * ApplicationWindow.java
- *
- * Created on 11. August 2006, 15:29
- */
 package acdsee.ui.dialogs;
 
 import acdsee.base.Walkable;
