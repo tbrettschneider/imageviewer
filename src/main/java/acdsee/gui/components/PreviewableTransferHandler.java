@@ -1,6 +1,6 @@
 package acdsee.gui.components;
 
-import acdsee.gui.components.thumbnail.AbstractThumbnail;
+import acdsee.gui.components.thumbnail.ZipEntryThumbnail;
 import java.awt.Cursor;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -17,12 +17,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.TransferHandler;
-
-import acdsee.gui.components.thumbnail.ZipEntryThumbnail;
 
 public class PreviewableTransferHandler extends TransferHandler {
 
@@ -73,9 +70,6 @@ public class PreviewableTransferHandler extends TransferHandler {
         if (!canImport(comp, t.getTransferDataFlavors())) {
             return false;
         }
-        //A real application would load the file in another
-        //thread in order to not block the UI.  This step
-        //was omitted here to simplify the code.
         if (hasAllowedFlavor(t.getTransferDataFlavors())) {
             previewPane.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             getTransferedObjectAndSetSource(t);
@@ -99,7 +93,7 @@ public class PreviewableTransferHandler extends TransferHandler {
                 final BufferedImage img = getImageFromDnD(t);
                 previewPane.setSource(img);
                 System.out.println("Got image from image...");
-            } catch (IOException | UnsupportedFlavorException e3) {
+            } catch (Exception e3) {
                 try {
                     final File file = getFileFromDnD(t);
                     previewPane.setSource(file.toURI());
