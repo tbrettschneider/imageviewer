@@ -10,9 +10,9 @@ import java.util.Comparator;
 public class ZipEntrySizeComparator implements Comparator<ZipEntryThumbnail> {
 
     @Override
-    public int compare(ZipEntryThumbnail zipEntryA, ZipEntryThumbnail zipEntryB) {
-        final Long zipEntrySizeA = zipEntryA.getZipEntry().getSize();
-        final Long zipEntrySizeB = zipEntryB.getZipEntry().getSize();
+    public int compare(ZipEntryThumbnail source, ZipEntryThumbnail target) {
+        final Long zipEntrySizeA = source.getZipEntry().getSize();
+        final Long zipEntrySizeB = target.getZipEntry().getSize();
         return zipEntrySizeA.compareTo(zipEntrySizeB);
     }
 }

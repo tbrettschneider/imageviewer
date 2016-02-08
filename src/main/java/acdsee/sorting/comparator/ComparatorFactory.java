@@ -1,5 +1,6 @@
 package acdsee.sorting.comparator;
 
+import acdsee.sorting.comparator.common.ImagePropertiesComparator;
 import acdsee.base.Walkable;
 import acdsee.base.ZipFile;
 import acdsee.sorting.comparator.file.FileLastModifiedComparator;

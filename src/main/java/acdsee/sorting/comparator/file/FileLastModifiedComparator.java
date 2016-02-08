@@ -11,7 +11,7 @@ import org.apache.commons.io.comparator.LastModifiedFileComparator;
 public class FileLastModifiedComparator implements Comparator<FileThumbnail> {
 
     @Override
-    public int compare(FileThumbnail fileA, FileThumbnail fileB) {
-        return LastModifiedFileComparator.LASTMODIFIED_COMPARATOR.compare(fileA.getFile(), fileB.getFile());
+    public int compare(FileThumbnail source, FileThumbnail target) {
+        return LastModifiedFileComparator.LASTMODIFIED_COMPARATOR.compare(source.getFile(), target.getFile());
     }
 }

@@ -11,7 +11,7 @@ import org.apache.commons.io.comparator.NameFileComparator;
 public class FileNameComparator implements Comparator<FileThumbnail> {
 
     @Override
-    public int compare(FileThumbnail fileA, FileThumbnail fileB) {
-        return NameFileComparator.NAME_COMPARATOR.compare(fileA.getFile(), fileB.getFile());
+    public int compare(FileThumbnail source, FileThumbnail target) {
+        return NameFileComparator.NAME_COMPARATOR.compare(source.getFile(), target.getFile());
     }
 }

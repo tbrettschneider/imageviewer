@@ -10,9 +10,9 @@ import java.util.Comparator;
 public class ZipEntryLastModifiedComparator implements Comparator<ZipEntryThumbnail> {
 
     @Override
-    public int compare(ZipEntryThumbnail zipEntryA, ZipEntryThumbnail zipEntryB) {
-        final Long lastModifiedFileA = zipEntryA.getZipEntry().getTime();
-        final Long lastModifiedFileB = zipEntryB.getZipEntry().getTime();
+    public int compare(ZipEntryThumbnail source, ZipEntryThumbnail target) {
+        final Long lastModifiedFileA = source.getZipEntry().getTime();
+        final Long lastModifiedFileB = target.getZipEntry().getTime();
         return lastModifiedFileA.compareTo(lastModifiedFileB);
     }
 }
