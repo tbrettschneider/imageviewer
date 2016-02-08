@@ -8,7 +8,7 @@
  */
 package acdsee.sorting.comparator.zipentry;
 
-import acdsee.gui.components.thumbnail.ZipEntryThumbnail;
+import acdsee.ui.components.thumbnail.ZipEntryThumbnail;
 import java.util.Comparator;
 
 /**

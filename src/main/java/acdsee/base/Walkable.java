@@ -9,10 +9,12 @@ import acdsee.io.util.FileHelper;
 import java.io.File;
 import java.io.IOException;
 import java.util.stream.Stream;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  *
- * @author tommy
+ * @author Tommy Brettschneider
  * @param <Source>
  * @param <ChildType>
  */
@@ -42,10 +44,16 @@ public abstract class Walkable<Source, ChildType> {
                 try {
                     walkable = new ZipFile(new java.util.zip.ZipFile(file));
                 } catch (IOException e) {
+                    //TODO 
                     e.printStackTrace();
                 }
             }
         }
         return walkable;
+    }
+    
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }
 }

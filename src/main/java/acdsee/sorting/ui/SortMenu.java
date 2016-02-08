@@ -1,6 +1,6 @@
 package acdsee.sorting.ui;
 
-import acdsee.gui.components.ThumbnailPane;
+import acdsee.ui.components.thumbnail.ThumbnailPane;
 import acdsee.sorting.comparator.ComparatorFactory;
 import java.awt.Component;
 import java.awt.Container;

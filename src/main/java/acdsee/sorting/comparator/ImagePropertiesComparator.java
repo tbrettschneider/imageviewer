@@ -8,17 +8,17 @@
  */
 package acdsee.sorting.comparator;
 
-import acdsee.gui.components.thumbnail.AbstractThumbnail;
+import acdsee.ui.components.thumbnail.Thumbnail;
 import java.util.Comparator;
 
 /**
  *
  * @author Tommy Brettschneider
  */
-public class ImagePropertiesComparator implements Comparator<AbstractThumbnail> {
+public class ImagePropertiesComparator implements Comparator<Thumbnail> {
 
     @Override
-    public int compare(AbstractThumbnail thumbA, AbstractThumbnail thumbB) {
+    public int compare(Thumbnail thumbA, Thumbnail thumbB) {
         final Integer thumbAMaxPixel = thumbA.getImageWidth() * thumbA.getImageHeight();
         final Integer thumbBMaxPixel = thumbB.getImageWidth() * thumbB.getImageWidth();
         return thumbAMaxPixel.compareTo(thumbBMaxPixel);

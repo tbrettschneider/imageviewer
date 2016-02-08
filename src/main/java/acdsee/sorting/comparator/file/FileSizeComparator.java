@@ -9,7 +9,7 @@
 package acdsee.sorting.comparator.file;
 
 import java.util.Comparator;
-import acdsee.gui.components.thumbnail.FileThumbnail;
+import acdsee.ui.components.thumbnail.FileThumbnail;
 import org.apache.commons.io.comparator.SizeFileComparator;
 
 /**
