@@ -4,7 +4,7 @@ import acdsee.ui.components.previewer.PreviewPane;
 import acdsee.base.Directory;
 import acdsee.base.Walkable;
 import acdsee.base.ZipFile;
-import acdsee.sorting.ui.SortMenu;
+import acdsee.sorting.SortMenu;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Desktop;

@@ -1,4 +1,4 @@
-package acdsee.sorting.ui;
+package acdsee.sorting;
 
 import acdsee.ui.components.thumbnail.ThumbnailPane;
 import acdsee.sorting.comparator.ComparatorFactory;
@@ -59,7 +59,7 @@ public class SortMenu extends JMenu {
 
             this.addSeparator();
 
-            this.add(new JRadioButtonMenuItem(new SortAction("Reverse Order", cf.getSizeComparator().reversed())));
+            this.add(new JRadioButtonMenuItem(new SortAction("Reverse Order", cf.reverse())));
         }
     }
     

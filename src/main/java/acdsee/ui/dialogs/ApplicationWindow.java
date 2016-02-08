@@ -8,7 +8,7 @@ import acdsee.ui.components.thumbnail.ThumbnailPane;
 import acdsee.ui.components.directorybox.LimitedEntriesComboxBoxModel;
 import acdsee.ui.components.explorer.FilesystemTreeNode;
 import acdsee.ui.util.UIUtils;
-import acdsee.sorting.ui.SortMenu;
+import acdsee.sorting.SortMenu;
 import java.awt.Dimension;
 import java.io.File;
 import java.util.concurrent.ExecutorService;
