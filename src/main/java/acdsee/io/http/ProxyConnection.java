@@ -3,7 +3,6 @@ package acdsee.io.http;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
-import com.Ostermiller.util.Base64;
 
 public class ProxyConnection {
 
@@ -33,8 +32,8 @@ public class ProxyConnection {
 
     private void setupAuthorization() {
         if (connection != null) {
-            connection.setRequestProperty("Proxy-Authorization", "Basic "
-                    + Base64.encode(getProxySettings().getProxyUsername() + ":" + getProxySettings().getProxyPassword()));
+            String encodedCredentials = java.util.Base64.getEncoder().encodeToString((getProxySettings().getProxyUsername() + ":" + getProxySettings().getProxyPassword()).getBytes());
+            connection.setRequestProperty("Proxy-Authorization", "Basic " + encodedCredentials);
         }
     }
 

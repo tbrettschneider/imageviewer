@@ -41,11 +41,6 @@
             <artifactId>thumbnailator</artifactId>
             <version>0.4.8</version>
         </dependency>
-        <dependency>
-            <groupId>org.ostermiller</groupId>
-            <artifactId>utils</artifactId>
-            <version>1.07.00</version>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -55,6 +50,9 @@
                 <version>2.3.2</version>
                 <configuration>
                     <encoding>${project.build.sourceEncoding}</encoding>
+                    <showDeprecation>true</showDeprecation>
+                    <showWarnings>true</showWarnings>
+                    <optimize>true</optimize>
                 </configuration>
             </plugin>
             <plugin>
