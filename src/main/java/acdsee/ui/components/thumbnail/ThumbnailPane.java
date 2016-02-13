@@ -321,8 +321,7 @@ public class ThumbnailPane extends JScrollPane implements AdjustmentListener {
 
     public void setThumbSize(int thumbSize) {
         this.thumbSize = thumbSize;
-        Thumbnail.setThumbnailHeight(thumbSize);
-        Thumbnail.setThumbnailWidth(thumbSize);
+        Thumbnail.getDimension().setSize(thumbSize, thumbSize);
         refresh();
     }
 

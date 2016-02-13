@@ -21,6 +21,7 @@ import javax.imageio.stream.ImageInputStream;
 import javax.swing.ImageIcon;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.tasks.UnsupportedFormatException;
+import org.apache.commons.io.IOUtils;
 
 import sun.awt.shell.ShellFolder;
 
@@ -45,8 +46,8 @@ public class FileThumbnail extends Thumbnail {
     }
 
     @Override
-    public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
-        final List files = new ArrayList();
+    public List<File> getTransferData(DataFlavor flavor) {
+        final List<File> files = new ArrayList<>();
         files.add(getFile());
         return files;
     }
@@ -56,12 +57,12 @@ public class FileThumbnail extends Thumbnail {
         try {
             if (FileHelper.isZIP(this.file)) {
                 ImageIcon icon = new ImageIcon(getThumbOfFirstZipEntry());
-                g2d.drawImage(icon.getImage(), (thumbnailWidth - icon.getIconWidth()) / 2, (thumbnailHeight - icon.getIconHeight()) / 2, this);
+                g2d.drawImage(icon.getImage(), (getThumbnailWidth() - icon.getIconWidth()) / 2, (getThumbnailHeight() - icon.getIconHeight()) / 2, this);
                 return;
             }
             final ShellFolder sf = ShellFolder.getShellFolder(file);
             final ImageIcon icon = new ImageIcon(sf.getIcon(true));
-            g2d.drawImage(icon.getImage(), (thumbnailWidth - icon.getIconWidth()) / 2, (thumbnailHeight - icon.getIconHeight()) / 2, this);
+            g2d.drawImage(icon.getImage(), (getThumbnailWidth() - icon.getIconWidth()) / 2, (getThumbnailHeight() - icon.getIconHeight()) / 2, this);
         } catch (Exception e) {
             //TODO
         }
@@ -100,20 +101,17 @@ public class FileThumbnail extends Thumbnail {
         return "<HTML>" + getFile().getName() /*+ "<br/>" + getImageWidth() + " x " + getImageHeight() */ + "<br/></HTML>";
     }
 
-    protected void setFile(File file) {
-    }
-
     @Override
     public void run() {
         try {
-            img = Thumbnails.of(getFile()).size(getThumbnailWidth(), getThumbnailWidth()).asBufferedImage();
-            imageWidth = img.getWidth(this); //otherwise sorting will not work
-            imageHeight = img.getHeight(this);
+            thumbnailImage = Thumbnails.of(getFile()).size(getThumbnailWidth(), getThumbnailWidth()).asBufferedImage();
+            imageWidth = thumbnailImage.getWidth(this); //otherwise sorting will not work
+            imageHeight = thumbnailImage.getHeight(this);
             repaint();
         } catch (UnsupportedFormatException e) {
-            // ignore this file...
+            LOGGER.log(Level.WARNING, e.getMessage());
         } catch (IOException e) {
             LOGGER.log(Level.WARNING, e.getMessage());
-        }
+        } 
     }
 }

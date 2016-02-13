@@ -38,33 +38,29 @@ public abstract class Thumbnail extends JPanel implements Runnable, Transferable
     protected final static Composite ALPHACOMPOSITE = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
     public final static GraphicsConfiguration graphicsConfiguration = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
     protected static final Color BORDER_COLOR = new Color(236, 233, 216);
-    protected static int thumbnailWidth = 135;
-    protected static int thumbnailHeight = 135;
-    protected static final float thumbnailRatio = thumbnailWidth / thumbnailHeight;
-    protected static final int maxPixelsThumbnail = thumbnailWidth * thumbnailHeight * 32; //höher ist besser!
-    protected static Dimension THUMB_DIM = new Dimension(thumbnailWidth, thumbnailHeight);
+    protected static Dimension dimension = new Dimension(135, 135);
     protected int subsampling = 1;
     protected int imageWidth, imageHeight;
     protected float imageRatio;
-    protected BufferedImage img;
-    protected ExecutorService exec;
-    protected boolean executed;
-    protected boolean selected = false;
-
+    protected BufferedImage thumbnailImage;
+    protected ExecutorService threadpool;
+    protected boolean selected;
+    private boolean executed;
+    
     /**
      * Gets the <code>Dimension</code> of each and every thumbnail.
-     * @return   the size of the thumbnails, an instance of <code>Dimension</code>
+     * @return   the dimension of the thumbnails, an instance of <code>Dimension</code>
      */
-    public static Dimension getDimension() {
-        return new Dimension(getThumbnailWidth(), getThumbnailHeight());
+    public final static Dimension getDimension() {
+        return dimension;
     }
 
     /**
      * Get the aspect ratio of a <code>Thumbnail</code>.
      * @return the aspect ratio of this <code>Thumbnail</code>
      */
-    public static float getAspectRatio() {
-        return getThumbnailWidth() / getThumbnailHeight();
+    public final static double getAspectRatio() {
+        return getDimension().getHeight() / getDimension().getHeight();
     }
 
     
@@ -72,14 +68,8 @@ public abstract class Thumbnail extends JPanel implements Runnable, Transferable
         return getThumbnailWidth() * getThumbnailHeight() * 32;
     }
 
-    /**
-     * Creates a new instance of AbstractThumbnail
-     */
-    public Thumbnail() {
-    }
-
     public Thumbnail(final ExecutorService threadPool) {
-        exec = threadPool;
+        threadpool = threadPool;
         setOpaque(true);
         setBackground(Color.WHITE);
         MyDragGestureListener mdgl = new MyDragGestureListener(this);
@@ -93,7 +83,7 @@ public abstract class Thumbnail extends JPanel implements Runnable, Transferable
     @Override
     protected final void paintComponent(final Graphics g) {
         if (!executed) {
-            exec.execute(this);
+            threadpool.execute(this);     
             executed = true;
         }
 
@@ -108,18 +98,18 @@ public abstract class Thumbnail extends JPanel implements Runnable, Transferable
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 
-        if (img != null) {
-            g2d.drawImage(img, (thumbnailWidth - img.getWidth()) / 2, (thumbnailHeight - img.getHeight()) / 2, this);
+        if (thumbnailImage != null) {
+            g2d.drawImage(thumbnailImage, (getThumbnailWidth() - thumbnailImage.getWidth()) / 2, (getThumbnailHeight() - thumbnailImage.getHeight()) / 2, this);
         } else {
             paintProxyImage(g2d);
         }
         g2d.setColor(BORDER_COLOR);
-        g2d.drawRoundRect(0, 0, thumbnailWidth - 1, thumbnailHeight - 1, 0, 0);
-
+        g2d.drawRect(0, 0, getThumbnailWidth()-1, getThumbnailHeight()-1); 
+                
         if (isSelected()) {
             g2d.setColor(Color.BLUE);
             g2d.setComposite(ALPHACOMPOSITE);
-            g2d.fillRoundRect(0, 0, thumbnailWidth - 1, thumbnailHeight - 1, 0, 0);
+            g2d.fillRect(0, 0, getThumbnailWidth()-1, getThumbnailHeight()-1);
         }
 
         g2d.dispose();
@@ -140,9 +130,9 @@ public abstract class Thumbnail extends JPanel implements Runnable, Transferable
             }
             final ImageReader reader = ImageIO.getImageReaders(iis).next();
             reader.setInput(iis);
-            setImageWidth(reader.getWidth(0));
-            setImageHeight(reader.getHeight(0));
-            setImageRatio(reader.getAspectRatio(0));
+            this.imageWidth = reader.getWidth(0);
+            this.imageHeight = reader.getHeight(0);
+            this.imageRatio = reader.getAspectRatio(0);
             final ImageReadParam readParam = reader.getDefaultReadParam();
             readParam.setSourceSubsampling(subsampling, subsampling, 0, 0);
             final BufferedImage bufImg = reader.read(0, readParam);
@@ -178,36 +168,24 @@ public abstract class Thumbnail extends JPanel implements Runnable, Transferable
      * @return 
      */
     public final int getSubsampling() {
-        if (imageWidth > thumbnailWidth && imageHeight > thumbnailHeight) {
+        if (imageWidth > getDimension().getWidth() && imageHeight > getDimension().getHeight()) {
             subsampling = ((imageWidth * imageHeight) / getMaxPixelsThumbnail()) + 2;
         }
         return subsampling;
     }
 
-    private void setImageHeight(final int imageHeight) {
-        this.imageHeight = imageHeight;
-    }
-
-    private void setImageRatio(final float imageRatio) {
-        this.imageRatio = imageRatio;
-    }
-
-    private void setImageWidth(final int imageWidth) {
-        this.imageWidth = imageWidth;
-    }
-
     protected final BufferedImage getThumbnail(final BufferedImage a_image) {
         final BufferedImage thumbImg;
 
-        if (imageWidth <= thumbnailWidth && imageHeight <= thumbnailHeight) {
+        if (imageWidth <= getThumbnailWidth() && imageHeight <= getThumbnailHeight()) {
             thumbImg = a_image;
         } else {
-            int w = thumbnailWidth, h = thumbnailHeight;
+            int w = getThumbnailWidth(), h = getThumbnailHeight();
 
             if (getAspectRatio() < imageRatio) {
-                h = (int) (thumbnailWidth / imageRatio);
+                h = (int)(getThumbnailWidth() / imageRatio);
             } else {
-                w = (int) (thumbnailHeight * imageRatio);
+                w = (int)(getThumbnailHeight() * imageRatio);
             }
 
             thumbImg = graphicsConfiguration.createCompatibleImage(w, h);
@@ -229,15 +207,15 @@ public abstract class Thumbnail extends JPanel implements Runnable, Transferable
     protected final BufferedImage getThumbnailHQ(final BufferedImage a_image) {
         final BufferedImage thumbImg;
 
-        if (imageWidth <= thumbnailWidth && imageHeight <= thumbnailHeight) {
+        if (imageWidth <= getDimension().getWidth() && imageHeight <= getThumbnailHeight()) {
             thumbImg = a_image;
         } else {
-            int w = thumbnailWidth, h = thumbnailHeight;
+            int w = getThumbnailWidth(), h = getThumbnailHeight();
 
             if (getAspectRatio() < imageRatio) {
-                h = (int) (thumbnailWidth / imageRatio);
+                h = (int)(getThumbnailWidth() / imageRatio);
             } else {
-                w = (int) (thumbnailHeight * imageRatio);
+                w = (int)(getThumbnailHeight() * imageRatio);
             }
 
             thumbImg = graphicsConfiguration.createCompatibleImage(w, h);
@@ -264,15 +242,11 @@ public abstract class Thumbnail extends JPanel implements Runnable, Transferable
     @Override
     public void run() {
         try {
-            img = getThumbnail(loadOriginalImageOfThumbnail(6));
+            thumbnailImage = getThumbnail(loadOriginalImageOfThumbnail(6));
             repaint(10);
-//?            Thread.sleep(10);
-            exec.execute(() -> {
-                try {
-                    img = getThumbnailHQ(loadOriginalImageOfThumbnail(3));
-                    repaint();
-                } finally {
-                }
+            threadpool.execute(() -> {
+                thumbnailImage = getThumbnailHQ(loadOriginalImageOfThumbnail(3));
+                repaint();                
             });
         } catch (Exception e) {
             //TODO: Exception handling!
@@ -298,7 +272,7 @@ public abstract class Thumbnail extends JPanel implements Runnable, Transferable
      * @return the already resized <code>Image</code> of this <code>Thumbnail</code>
      */
     public final Image getThumbnailImage() {
-        return img;
+        return this.thumbnailImage;
     }
 
     public final int getImageWidth() {
@@ -324,26 +298,14 @@ public abstract class Thumbnail extends JPanel implements Runnable, Transferable
     }
 
     public boolean isSelected() {
-        return selected;
+        return this.selected;
     }
 
-    public static int getThumbnailHeight() {
-        return thumbnailHeight;
+    protected static int getThumbnailHeight() {
+        return (int)getDimension().getHeight();
     }
 
-    public static void setThumbnailHeight(int thumbnailHeight) {
-        Thumbnail.thumbnailHeight = thumbnailHeight;
-    }
-
-    public static int getThumbnailWidth() {
-        return thumbnailWidth;
-    }
-
-    /**
-     * Sets the width of all thumbnails.
-     * @param width width of thumbnails
-     */
-    public static void setThumbnailWidth(int width) {
-        Thumbnail.thumbnailWidth = width;
+    protected static int getThumbnailWidth() {
+        return (int)getDimension().getWidth();
     }
 }

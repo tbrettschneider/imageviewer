@@ -16,6 +16,7 @@ import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.ImageIcon;
 import net.coobird.thumbnailator.Thumbnails;
+import org.apache.commons.io.IOUtils;
 
 public final class ZipEntryThumbnail extends Thumbnail {
 
@@ -29,7 +30,7 @@ public final class ZipEntryThumbnail extends Thumbnail {
         this.zipFile = zipFile;
     }
 
-    public ZipEntry getZipEntry() {
+    protected ZipEntry getZipEntry() {
         return zipEntry;
     }
 
@@ -39,7 +40,7 @@ public final class ZipEntryThumbnail extends Thumbnail {
 
     @Override
     public void paintProxyImage(Graphics2D g2d) {
-        g2d.drawImage(icon.getImage(), (thumbnailWidth - icon.getIconWidth()) / 2, (thumbnailHeight - icon.getIconHeight()) / 2, this);
+        g2d.drawImage(icon.getImage(), (getThumbnailWidth() - icon.getIconWidth()) / 2, (getThumbnailHeight() - icon.getIconHeight()) / 2, this);
     }
 
     @Override
@@ -52,7 +53,7 @@ public final class ZipEntryThumbnail extends Thumbnail {
     }
 
     @Override
-    public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+    public ZipEntryThumbnail getTransferData(DataFlavor flavor) {
         return this;
     }
 
@@ -64,12 +65,14 @@ public final class ZipEntryThumbnail extends Thumbnail {
     @Override
     public void run() {
         try {
-            img = Thumbnails.of(getInputStream()).size(getThumbnailWidth(), getThumbnailWidth()).asBufferedImage();
-            imageWidth = img.getWidth(this); //otherwise sorting will not work
-            imageHeight = img.getHeight(this);
+            thumbnailImage = Thumbnails.of(getInputStream()).size(getThumbnailWidth(), getThumbnailWidth()).asBufferedImage();
+            imageWidth = thumbnailImage.getWidth(this); //otherwise sorting will not work
+            imageHeight = thumbnailImage.getHeight(this);
             repaint();
         } catch (IOException ex) {
             Logger.getLogger(FileThumbnail.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            IOUtils.closeQuietly(getInputStream());
         }
     }
 }
