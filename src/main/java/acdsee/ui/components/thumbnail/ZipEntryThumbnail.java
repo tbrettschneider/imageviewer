@@ -30,7 +30,7 @@ public final class ZipEntryThumbnail extends Thumbnail {
         this.zipFile = zipFile;
     }
 
-    protected ZipEntry getZipEntry() {
+    public ZipEntry getZipEntry() {
         return zipEntry;
     }
 
@@ -71,8 +71,6 @@ public final class ZipEntryThumbnail extends Thumbnail {
             repaint();
         } catch (IOException ex) {
             Logger.getLogger(FileThumbnail.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            IOUtils.closeQuietly(getInputStream());
         }
     }
 }
