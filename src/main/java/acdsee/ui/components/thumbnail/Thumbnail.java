@@ -14,8 +14,6 @@ import java.awt.RenderingHints;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DragGestureEvent;
-import java.awt.dnd.DragGestureListener;
 import java.awt.dnd.DragGestureRecognizer;
 import java.awt.dnd.DragSource;
 import java.awt.dnd.DragSourceListener;
@@ -34,8 +32,8 @@ import javax.swing.JPanel;
  */
 public abstract class Thumbnail<E> extends JPanel implements Runnable, Transferable {
 
-    protected final static Composite ALPHACOMPOSITE = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
     public final static GraphicsConfiguration graphicsConfiguration = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
+    protected final static Composite ALPHACOMPOSITE = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
     protected static final Color BORDER_COLOR = new Color(236, 233, 216);
     protected static Dimension dimension = new Dimension(135, 135);
     protected int subsampling = 1;
@@ -46,6 +44,21 @@ public abstract class Thumbnail<E> extends JPanel implements Runnable, Transfera
     protected boolean selected;
     private boolean executed;
     private E source;
+    
+    
+    public Thumbnail(final E source, final ExecutorService threadPool) {
+        this.source = source;
+        this.threadpool = threadPool;
+        setOpaque(true);
+        setBackground(Color.WHITE);
+        MyDragGestureListener mdgl = new MyDragGestureListener(this);
+        DragSource dragSource = new DragSource();
+        DragGestureRecognizer dgr = dragSource.createDefaultDragGestureRecognizer(
+                this, DnDConstants.ACTION_COPY, mdgl);
+        dragSource.addDragSourceMotionListener((DragSourceMotionListener) ApplicationWindow.GLASSPANE);
+        dragSource.addDragSourceListener((DragSourceListener) ApplicationWindow.GLASSPANE);
+    }
+    
     
     /**
      * Gets the <code>Dimension</code> of each and every thumbnail.
@@ -66,19 +79,6 @@ public abstract class Thumbnail<E> extends JPanel implements Runnable, Transfera
     
     public static int getMaxPixelsThumbnail() {
         return getThumbnailWidth() * getThumbnailHeight() * 32;
-    }
-
-    public Thumbnail(final E source, final ExecutorService threadPool) {
-        this.source = source;
-        this.threadpool = threadPool;
-        setOpaque(true);
-        setBackground(Color.WHITE);
-        MyDragGestureListener mdgl = new MyDragGestureListener(this);
-        DragSource dragSource = new DragSource();
-        DragGestureRecognizer dgr = dragSource.createDefaultDragGestureRecognizer(
-                this, DnDConstants.ACTION_COPY, mdgl);
-        dragSource.addDragSourceMotionListener((DragSourceMotionListener) ApplicationWindow.GLASSPANE);
-        dragSource.addDragSourceListener((DragSourceListener) ApplicationWindow.GLASSPANE);
     }
 
     @Override
@@ -152,7 +152,7 @@ public abstract class Thumbnail<E> extends JPanel implements Runnable, Transfera
     }
 
     /**
-     * Custom painting code to draw a proxy image during imageloading comes in here.
+     * Custom painting code to draw a transferable image during imageloading comes in here.
      * @param g the <code>Graphics2D</code> instance to draw onto
      */
     public abstract void paintProxyImage(final Graphics2D g);
@@ -162,8 +162,7 @@ public abstract class Thumbnail<E> extends JPanel implements Runnable, Transfera
      * @return an <code>ImageInputStream</code> to access the target image 
      * @throws IOException 
      */
-    public abstract ImageInputStream getImageInputStream()
-            throws IOException;
+    public abstract ImageInputStream getImageInputStream() throws IOException;
 
     /**
      * @return 
@@ -254,20 +253,6 @@ public abstract class Thumbnail<E> extends JPanel implements Runnable, Transfera
         }
     }
 
-    final static class MyDragGestureListener implements DragGestureListener {
-
-        private final Transferable proxy;
-
-        public MyDragGestureListener(Transferable proxy) {
-            this.proxy = proxy;
-        }
-
-        @Override
-        public void dragGestureRecognized(DragGestureEvent e) {
-            e.startDrag(null, proxy);
-        }
-    }
-
     /**
      * Gets the thumbnail image.
      * @return the already resized <code>Image</code> of this <code>Thumbnail</code>
@@ -276,14 +261,46 @@ public abstract class Thumbnail<E> extends JPanel implements Runnable, Transfera
         return this.thumbnailImage;
     }
 
+    /**
+     * Gets the sourceimage's width.
+     * @return the width of the sourceimage
+     */
     public final int getImageWidth() {
         return imageWidth;
     }
 
+    /**
+     * Gets the sourceimage's height.
+     * @return the height of the sourceimage
+     */
     public final int getImageHeight() {
         return imageHeight;
     }
 
+    /**
+     * Gets the height of the thumbnails.
+     * @return the thumbnails' height
+     */
+    protected static int getThumbnailHeight() {
+        return (int)getDimension().getHeight();
+    }
+
+    /**
+     * Gets the width of the thumbnails.
+     * @return the thumbnails' width
+     */
+    protected static int getThumbnailWidth() {
+        return (int)getDimension().getWidth();
+    }
+    
+    /**
+     * Gets the source object of this thumbnail.
+     * @return the source object of this thumbail.
+     */
+    public E getSource() {
+        return this.source;
+    } 
+    
     @Override
     public DataFlavor[] getTransferDataFlavors() {
         return new DataFlavor[]{DataFlavor.javaFileListFlavor};
@@ -300,17 +317,5 @@ public abstract class Thumbnail<E> extends JPanel implements Runnable, Transfera
 
     public boolean isSelected() {
         return this.selected;
-    }
-
-    protected static int getThumbnailHeight() {
-        return (int)getDimension().getHeight();
-    }
-
-    protected static int getThumbnailWidth() {
-        return (int)getDimension().getWidth();
-    }
-    
-    public E getSource() {
-        return this.source;
     }
 }
