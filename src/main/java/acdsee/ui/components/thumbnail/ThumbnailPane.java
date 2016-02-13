@@ -90,7 +90,7 @@ public class ThumbnailPane extends JScrollPane implements AdjustmentListener {
                 
                 if (SwingUtilities.isLeftMouseButton(evt) && evt.getClickCount() > 1) {
                     if (proxy instanceof FileThumbnail) {
-                        File f = ((FileThumbnail) proxy).getFile();
+                        File f = ((FileThumbnail) proxy).getSource();
                         Walkable walkable = Walkable.getInstance(f);
                         setSource(walkable);
                     }
@@ -100,7 +100,7 @@ public class ThumbnailPane extends JScrollPane implements AdjustmentListener {
                     // Desktop integration...
                     JMenu nativeCommands = new JMenu("Native Cmd");
                     if (proxy instanceof FileThumbnail && Desktop.isDesktopSupported()) {
-                        final File selectedFile = ((FileThumbnail) proxy).getFile();
+                        final File selectedFile = ((FileThumbnail) proxy).getSource();
                         if (selectedFile.isFile()) {
                             JMenuItem nativeCmd = new JMenuItem("Open...");
                             nativeCmd.addActionListener((ActionEvent arg0) -> {
@@ -128,7 +128,7 @@ public class ThumbnailPane extends JScrollPane implements AdjustmentListener {
                     
                     JMenuItem mi = new JMenuItem("Delete");
                     mi.addActionListener((ActionEvent arg0) -> {
-                        final File selectedFile = ((FileThumbnail) proxy).getFile();
+                        final File selectedFile = ((FileThumbnail) proxy).getSource();
                         FileUtils.deleteQuietly(selectedFile);
                         getPanel().remove(proxy);
                         revalidate();
@@ -149,7 +149,7 @@ public class ThumbnailPane extends JScrollPane implements AdjustmentListener {
                         if (Desktop.isDesktopSupported()) {
                             
                         }
-                        Desktop.getDesktop().open(((FileThumbnail)proxy).getFile());
+                        Desktop.getDesktop().open(((FileThumbnail)proxy).getSource());
                         final JFrame w = new JFrame();
                         w.setExtendedState(JFrame.MAXIMIZED_BOTH);
                         
@@ -184,7 +184,7 @@ public class ThumbnailPane extends JScrollPane implements AdjustmentListener {
                     }
                     
                     if (proxy instanceof FileThumbnail) {
-                        previewpane.setSource(/*proxy.loadOriginalImage()); */((FileThumbnail) proxy).getFile());
+                        previewpane.setSource(/*proxy.loadOriginalImage()); */((FileThumbnail) proxy).getSource());
                     } else if (proxy instanceof ZipEntryThumbnail) {
                         previewpane.setSource(((ZipEntryThumbnail) proxy).getInputStream());
                     }
@@ -239,7 +239,7 @@ public class ThumbnailPane extends JScrollPane implements AdjustmentListener {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 try {
                     FileThumbnail at = (FileThumbnail) evt.getSource();
-                    setSource(Walkable.getInstance(at.getFile()));
+                    setSource(Walkable.getInstance(at.getSource()));
                 } catch (Exception ex) {
                     //TODO                    
                 }
@@ -297,7 +297,7 @@ public class ThumbnailPane extends JScrollPane implements AdjustmentListener {
             
             if (walkable instanceof ZipFile) {
                 walkable.getChildren().forEach(zipEntry -> {
-                    Thumbnail t = new ZipEntryThumbnail((ZipEntry)zipEntry, (java.util.zip.ZipFile)walkable.getSource(), executorService);
+                    Thumbnail t = new ZipEntryThumbnail((ZipEntry)zipEntry, executorService, (java.util.zip.ZipFile)walkable.getSource());
                     t.addMouseListener(mouseListener);                 
                     getPanel().add(t);
                 });

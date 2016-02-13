@@ -12,6 +12,6 @@ public class FileNameComparator implements Comparator<FileThumbnail> {
 
     @Override
     public int compare(FileThumbnail source, FileThumbnail target) {
-        return NameFileComparator.NAME_COMPARATOR.compare(source.getFile(), target.getFile());
+        return NameFileComparator.NAME_COMPARATOR.compare(source.getSource(), target.getSource());
     }
 }

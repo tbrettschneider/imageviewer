@@ -18,23 +18,17 @@ import javax.swing.ImageIcon;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.IOUtils;
 
-public final class ZipEntryThumbnail extends Thumbnail {
+public final class ZipEntryThumbnail extends Thumbnail<ZipEntry> {
 
-    private final ZipEntry zipEntry;
     private final ZipFile zipFile;
     private static final ImageIcon icon = new ImageIcon("d:\\image.gif");
 
-    public ZipEntryThumbnail(final ZipEntry zipEntry, final ZipFile zipFile, final ExecutorService threadPool) {
-        super(threadPool);
-        this.zipEntry = zipEntry;
+    public ZipEntryThumbnail(final ZipEntry zipEntry, final ExecutorService threadPool, final ZipFile zipFile) {
+        super(zipEntry, threadPool);
         this.zipFile = zipFile;
     }
 
-    public ZipEntry getZipEntry() {
-        return zipEntry;
-    }
-
-    public ZipFile getZipFile() {
+    private ZipFile getZipFile() {
         return zipFile;
     }
 
@@ -49,7 +43,7 @@ public final class ZipEntryThumbnail extends Thumbnail {
     }
 
     public InputStream getInputStream() throws IOException {
-        return zipFile.getInputStream(zipEntry);
+        return getZipFile().getInputStream(getSource());
     }
 
     @Override
@@ -59,7 +53,7 @@ public final class ZipEntryThumbnail extends Thumbnail {
 
     @Override
     public String toString() {
-        return "<HTML>" + getZipEntry().getName() /*+ "<br/>" + getImageWidth() + " x " + getImageHeight() */ + "<br/></HTML>";
+        return "<HTML>" + getSource().getName() /*+ "<br/>" + getImageWidth() + " x " + getImageHeight() */ + "<br/></HTML>";
     }
 
     @Override

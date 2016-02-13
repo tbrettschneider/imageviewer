@@ -11,8 +11,8 @@ public class ZipEntryLastModifiedComparator implements Comparator<ZipEntryThumbn
 
     @Override
     public int compare(ZipEntryThumbnail source, ZipEntryThumbnail target) {
-        final Long lastModifiedFileA = source.getZipEntry().getTime();
-        final Long lastModifiedFileB = target.getZipEntry().getTime();
+        final Long lastModifiedFileA = source.getSource().getTime();
+        final Long lastModifiedFileB = target.getSource().getTime();
         return lastModifiedFileA.compareTo(lastModifiedFileB);
     }
 }

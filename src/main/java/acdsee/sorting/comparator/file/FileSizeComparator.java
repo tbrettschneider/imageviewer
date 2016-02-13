@@ -12,6 +12,6 @@ public class FileSizeComparator implements Comparator<FileThumbnail> {
 
     @Override
     public int compare(FileThumbnail source, FileThumbnail target) {
-        return SizeFileComparator.SIZE_COMPARATOR.compare(source.getFile(), target.getFile());
+        return SizeFileComparator.SIZE_COMPARATOR.compare(source.getSource(), target.getSource());
     }
 }

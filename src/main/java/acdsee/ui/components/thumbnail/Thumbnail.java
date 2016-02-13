@@ -28,12 +28,11 @@ import javax.imageio.ImageReadParam;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.JPanel;
-
 /**
  *
  * @author Tommy Brettschneider
  */
-public abstract class Thumbnail extends JPanel implements Runnable, Transferable {
+public abstract class Thumbnail<E> extends JPanel implements Runnable, Transferable {
 
     protected final static Composite ALPHACOMPOSITE = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
     public final static GraphicsConfiguration graphicsConfiguration = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
@@ -46,6 +45,7 @@ public abstract class Thumbnail extends JPanel implements Runnable, Transferable
     protected ExecutorService threadpool;
     protected boolean selected;
     private boolean executed;
+    private E source;
     
     /**
      * Gets the <code>Dimension</code> of each and every thumbnail.
@@ -68,8 +68,9 @@ public abstract class Thumbnail extends JPanel implements Runnable, Transferable
         return getThumbnailWidth() * getThumbnailHeight() * 32;
     }
 
-    public Thumbnail(final ExecutorService threadPool) {
-        threadpool = threadPool;
+    public Thumbnail(final E source, final ExecutorService threadPool) {
+        this.source = source;
+        this.threadpool = threadPool;
         setOpaque(true);
         setBackground(Color.WHITE);
         MyDragGestureListener mdgl = new MyDragGestureListener(this);
@@ -307,5 +308,9 @@ public abstract class Thumbnail extends JPanel implements Runnable, Transferable
 
     protected static int getThumbnailWidth() {
         return (int)getDimension().getWidth();
+    }
+    
+    public E getSource() {
+        return this.source;
     }
 }

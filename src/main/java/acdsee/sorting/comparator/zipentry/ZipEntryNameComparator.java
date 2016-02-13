@@ -12,8 +12,8 @@ public class ZipEntryNameComparator implements Comparator<ZipEntryThumbnail> {
 
     @Override
     public int compare(ZipEntryThumbnail source, ZipEntryThumbnail target) {
-        final ZipEntry f1 = source.getZipEntry();
-        final ZipEntry f2 = target.getZipEntry();
+        final ZipEntry f1 = source.getSource();
+        final ZipEntry f2 = target.getSource();
         return f1.getName().compareTo(f2.getName());
     }
 }
