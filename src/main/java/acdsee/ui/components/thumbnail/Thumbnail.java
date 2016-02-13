@@ -20,8 +20,6 @@ import java.awt.dnd.DragGestureRecognizer;
 import java.awt.dnd.DragSource;
 import java.awt.dnd.DragSourceListener;
 import java.awt.dnd.DragSourceMotionListener;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -35,7 +33,7 @@ import javax.swing.JPanel;
  *
  * @author Tommy Brettschneider
  */
-public abstract class Thumbnail extends JPanel implements Runnable, AdjustmentListener, Transferable {
+public abstract class Thumbnail extends JPanel implements Runnable, Transferable {
 
     protected final static Composite ALPHACOMPOSITE = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
     public final static GraphicsConfiguration graphicsConfiguration = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
@@ -51,17 +49,25 @@ public abstract class Thumbnail extends JPanel implements Runnable, AdjustmentLi
     protected BufferedImage img;
     protected ExecutorService exec;
     protected boolean executed;
-    protected boolean movingAround = false;
     protected boolean selected = false;
 
-    public static Dimension getThumbDim() {
+    /**
+     * Gets the <code>Dimension</code> of each and every thumbnail.
+     * @return   the size of the thumbnails, an instance of <code>Dimension</code>
+     */
+    public static Dimension getDimension() {
         return new Dimension(getThumbnailWidth(), getThumbnailHeight());
     }
 
-    public static float getThumbnailRatio() {
+    /**
+     * Get the aspect ratio of a <code>Thumbnail</code>.
+     * @return the aspect ratio of this <code>Thumbnail</code>
+     */
+    public static float getAspectRatio() {
         return getThumbnailWidth() / getThumbnailHeight();
     }
 
+    
     public static int getMaxPixelsThumbnail() {
         return getThumbnailWidth() * getThumbnailHeight() * 32;
     }
@@ -86,7 +92,7 @@ public abstract class Thumbnail extends JPanel implements Runnable, AdjustmentLi
 
     @Override
     protected final void paintComponent(final Graphics g) {
-        if (!executed && !movingAround) {
+        if (!executed) {
             exec.execute(this);
             executed = true;
         }
@@ -151,11 +157,20 @@ public abstract class Thumbnail extends JPanel implements Runnable, AdjustmentLi
 
     @Override
     public final Dimension getPreferredSize() {
-        return getThumbDim();
+        return getDimension();
     }
 
+    /**
+     * Custom painting code to draw a proxy image during imageloading comes in here.
+     * @param g the <code>Graphics2D</code> instance to draw onto
+     */
     public abstract void paintProxyImage(final Graphics2D g);
 
+    /**
+     * Custom imageloading code comes in here.
+     * @return an <code>ImageInputStream</code> to access the target image 
+     * @throws IOException 
+     */
     public abstract ImageInputStream getImageInputStream()
             throws IOException;
 
@@ -189,7 +204,7 @@ public abstract class Thumbnail extends JPanel implements Runnable, AdjustmentLi
         } else {
             int w = thumbnailWidth, h = thumbnailHeight;
 
-            if (getThumbnailRatio() < imageRatio) {
+            if (getAspectRatio() < imageRatio) {
                 h = (int) (thumbnailWidth / imageRatio);
             } else {
                 w = (int) (thumbnailHeight * imageRatio);
@@ -219,7 +234,7 @@ public abstract class Thumbnail extends JPanel implements Runnable, AdjustmentLi
         } else {
             int w = thumbnailWidth, h = thumbnailHeight;
 
-            if (getThumbnailRatio() < imageRatio) {
+            if (getAspectRatio() < imageRatio) {
                 h = (int) (thumbnailWidth / imageRatio);
             } else {
                 w = (int) (thumbnailHeight * imageRatio);
@@ -278,6 +293,10 @@ public abstract class Thumbnail extends JPanel implements Runnable, AdjustmentLi
         }
     }
 
+    /**
+     * Gets the thumbnail image.
+     * @return the already resized <code>Image</code> of this <code>Thumbnail</code>
+     */
     public final Image getThumbnailImage() {
         return img;
     }
@@ -288,13 +307,6 @@ public abstract class Thumbnail extends JPanel implements Runnable, AdjustmentLi
 
     public final int getImageHeight() {
         return imageHeight;
-    }
-
-    @Override
-    public final void adjustmentValueChanged(AdjustmentEvent e) {
-        if (!(movingAround = e.getValueIsAdjusting())) {
-            repaint();
-        }
     }
 
     @Override
@@ -327,7 +339,11 @@ public abstract class Thumbnail extends JPanel implements Runnable, AdjustmentLi
         return thumbnailWidth;
     }
 
-    public static void setThumbnailWidth(int thumbnailWidth) {
-        Thumbnail.thumbnailWidth = thumbnailWidth;
+    /**
+     * Sets the width of all thumbnails.
+     * @param width width of thumbnails
+     */
+    public static void setThumbnailWidth(int width) {
+        Thumbnail.thumbnailWidth = width;
     }
 }

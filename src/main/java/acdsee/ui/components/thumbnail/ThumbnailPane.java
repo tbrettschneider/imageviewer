@@ -14,6 +14,8 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
@@ -36,7 +38,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import org.apache.commons.io.FileUtils;
 
-public class ThumbnailPane extends JScrollPane {
+public class ThumbnailPane extends JScrollPane implements AdjustmentListener {
 
     private static final Point UPPERLEFTCORNER = new Point(0, 0);
 
@@ -291,19 +293,18 @@ public class ThumbnailPane extends JScrollPane {
             getPanel().removeAll();
             getPanel().revalidate();
             getPanel().repaint();
-
+            getVerticalScrollBar().addAdjustmentListener(this);
+            
             if (walkable instanceof ZipFile) {
                 walkable.getChildren().forEach(zipEntry -> {
                     Thumbnail t = new ZipEntryThumbnail((ZipEntry)zipEntry, (java.util.zip.ZipFile)walkable.getSource(), executorService);
-                    t.addMouseListener(mouseListener);
-                    getVerticalScrollBar().addAdjustmentListener(t);
+                    t.addMouseListener(mouseListener);                 
                     getPanel().add(t);
                 });
             } else if (walkable instanceof Directory) {
                 walkable.getChildren().forEach(file -> {
                     Thumbnail t = new FileThumbnail((File)file, executorService);
                     t.addMouseListener(mouseListener);
-                    getVerticalScrollBar().addAdjustmentListener(t);
                     getPanel().add(t);
                 });
             }
@@ -323,5 +324,12 @@ public class ThumbnailPane extends JScrollPane {
         Thumbnail.setThumbnailHeight(thumbSize);
         Thumbnail.setThumbnailWidth(thumbSize);
         refresh();
+    }
+
+    @Override
+    public final void adjustmentValueChanged(AdjustmentEvent e) {
+        if (!e.getValueIsAdjusting()) {
+            repaint();
+        }
     }
 }

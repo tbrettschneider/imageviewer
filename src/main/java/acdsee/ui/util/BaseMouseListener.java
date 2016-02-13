@@ -13,7 +13,7 @@ public class BaseMouseListener extends MouseInputAdapter {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2) {
+        if (isDoubleClick(e)) {
             mouseDoubleClicked(e);
         } else if (SwingUtilities.isRightMouseButton(e)) {
             rightMouseButtonClicked(e);
@@ -24,5 +24,9 @@ public class BaseMouseListener extends MouseInputAdapter {
     }
 
     protected void rightMouseButtonClicked(MouseEvent event) {
+    }
+    
+    private boolean isDoubleClick(MouseEvent e) {
+        return (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2);
     }
 }
