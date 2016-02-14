@@ -34,10 +34,11 @@ public class ApplicationWindow extends javax.swing.JFrame {
      */
     public ApplicationWindow() {
         super("ImageViewer v0.1");
-        final int cores = Runtime.getRuntime().availableProcessors();
-        final int maxThreads = cores/2 + 2;
-        executorService = Executors.newFixedThreadPool(maxThreads);
-        System.out.println("Running with " + maxThreads + " threads...");
+//        final int cores = Runtime.getRuntime().availableProcessors();
+//        final int maxThreads = cores/2 + 1;
+//        executorService = Executors.newFixedThreadPool(maxThreads);
+        executorService = Executors.newCachedThreadPool();
+//        System.out.println("Running with " + maxThreads + " threads...");
         initComponents();
         setGlassPane(GLASSPANE);
         previewpane.setExecutorService(executorService);

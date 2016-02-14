@@ -141,12 +141,12 @@ public class ThumbnailSelection extends JPanel implements Scrollable {
 
     @Override
     public boolean getScrollableTracksViewportWidth() {
-        return true;
+        return Boolean.TRUE;
         
     }
 
     @Override
     public boolean getScrollableTracksViewportHeight() {
-        return false;
+        return Boolean.FALSE;
     }
 }

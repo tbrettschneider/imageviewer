@@ -20,17 +20,14 @@ import java.awt.dnd.DragSourceListener;
 import java.awt.dnd.DragSourceMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.concurrent.ExecutorService;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReadParam;
-import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.JPanel;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import java.io.InputStream;
 /**
  *
  * @author Tommy Brettschneider
@@ -60,7 +57,7 @@ public abstract class Thumbnail<E> extends JPanel implements Runnable, Transfera
         this.threadpool = threadPool;
         setOpaque(true);
         setBackground(Color.WHITE);
-        
+                
         //TODO: try to move this one to ThumbnailPane... 
         MyDragGestureListener mdgl = new MyDragGestureListener(this);
         DragSource dragSource = new DragSource();
@@ -131,28 +128,6 @@ public abstract class Thumbnail<E> extends JPanel implements Runnable, Transfera
         g2d.dispose();
     }
 
-    protected final BufferedImage loadOriginalImageOfThumbnail(final int subsampling, final ImageInputStream iis) {
-        try {
-            if (iis == null) {
-                return null;
-            }
-            final ImageReader reader = ImageIO.getImageReaders(iis).next();
-            reader.setInput(iis);
-            this.imageWidth = reader.getWidth(0);
-            this.imageHeight = reader.getHeight(0);
-            this.imageRatio = reader.getAspectRatio(0);
-            final ImageReadParam readParam = reader.getDefaultReadParam();
-            readParam.setSourceSubsampling(subsampling, subsampling, 0, 0);
-            final BufferedImage bufImg = reader.read(0, readParam);
-            // setImageDepth(bufImg.getColorModel().getPixelSize());
-            reader.dispose();
-            iis.close();
-            return bufImg;
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
     @Override
     public final Dimension getPreferredSize() {
         return getDimension();
@@ -173,81 +148,6 @@ public abstract class Thumbnail<E> extends JPanel implements Runnable, Transfera
 
     public abstract InputStream getInputStream() throws IOException;
     
-    /**
-     * @return 
-     */
-    public final int getSubsampling() {
-        if (imageWidth > getDimension().getWidth() && imageHeight > getDimension().getHeight()) {
-            subsampling = ((imageWidth * imageHeight) / getMaxPixelsThumbnail()) + 2;
-        }
-        return subsampling;
-    }
-
-    protected final BufferedImage getThumbnail(final BufferedImage a_image) {
-        final BufferedImage thumbImg;
-
-        if (imageWidth <= getThumbnailWidth() && imageHeight <= getThumbnailHeight()) {
-            thumbImg = a_image;
-        } else {
-            int w = getThumbnailWidth(), h = getThumbnailHeight();
-
-            if (getAspectRatio() < imageRatio) {
-                h = (int)(getThumbnailWidth() / imageRatio);
-            } else {
-                w = (int)(getThumbnailHeight() * imageRatio);
-            }
-
-            thumbImg = graphicsConfiguration.createCompatibleImage(w, h);
-
-            final Graphics2D graphics2D = thumbImg.createGraphics();
-            graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-            graphics2D.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
-            graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-            graphics2D.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
-            graphics2D.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_DISABLE);
-            graphics2D.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
-            graphics2D.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
-            graphics2D.drawImage(a_image, 0, 0, w, h, this);
-            graphics2D.dispose();
-        }
-        return thumbImg;
-    }
-
-    protected final BufferedImage getThumbnailHQ(final BufferedImage a_image) {
-        final BufferedImage thumbImg;
-
-        if (imageWidth <= getDimension().getWidth() && imageHeight <= getThumbnailHeight()) {
-            thumbImg = a_image;
-        } else {
-            int w = getThumbnailWidth(), h = getThumbnailHeight();
-
-            if (getAspectRatio() < imageRatio) {
-                h = (int)(getThumbnailWidth() / imageRatio);
-            } else {
-                w = (int)(getThumbnailHeight() * imageRatio);
-            }
-
-            thumbImg = graphicsConfiguration.createCompatibleImage(w, h);
-
-            final Graphics2D graphics2D = thumbImg.createGraphics();
-            graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-            graphics2D.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
-            graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-            graphics2D.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
-            graphics2D.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_DISABLE);
-            graphics2D.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
-            graphics2D.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
-
-            graphics2D.drawImage(
-                    a_image.getScaledInstance(w, h, Image.SCALE_SMOOTH),
-                    //                getScaledInstance(a_image, w, h, RenderingHints.VALUE_INTERPOLATION_BICUBIC, true),
-                    0, 0, w, h, this);
-
-            graphics2D.dispose();
-        }
-        return thumbImg;
-    }
-
     @Override
     public void run() {
         try {
