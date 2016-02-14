@@ -21,18 +21,23 @@ import java.awt.dnd.DragSourceMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReadParam;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.JPanel;
+import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import java.io.InputStream;
 /**
  *
  * @author Tommy Brettschneider
  */
 public abstract class Thumbnail<E> extends JPanel implements Runnable, Transferable {
+
+    private static final Logger LOGGER = Logger.getLogger(Thumbnail.class.getName());
 
     private static final Color COLOR_SELECTED_THUMBNAIL = Color.decode("#B2DFEE");
     
@@ -123,16 +128,7 @@ public abstract class Thumbnail<E> extends JPanel implements Runnable, Transfera
             g2d.setComposite(ALPHACOMPOSITE);
             g2d.fillRect(0, 0, getThumbnailWidth()-1, getThumbnailHeight()-1);
         }
-
         g2d.dispose();
-    }
-
-    private BufferedImage loadOriginalImageOfThumbnail(final int subsampling) {
-        try {
-            return loadOriginalImageOfThumbnail(subsampling, getImageInputStream());
-        } catch (IOException e) {
-            return null;
-        }
     }
 
     protected final BufferedImage loadOriginalImageOfThumbnail(final int subsampling, final ImageInputStream iis) {
@@ -175,6 +171,8 @@ public abstract class Thumbnail<E> extends JPanel implements Runnable, Transfera
      */
     public abstract ImageInputStream getImageInputStream() throws IOException;
 
+    public abstract InputStream getInputStream() throws IOException;
+    
     /**
      * @return 
      */
@@ -253,14 +251,12 @@ public abstract class Thumbnail<E> extends JPanel implements Runnable, Transfera
     @Override
     public void run() {
         try {
-            thumbnailImage = getThumbnail(loadOriginalImageOfThumbnail(6));
-            repaint(10);
-            threadpool.execute(() -> {
-                thumbnailImage = getThumbnailHQ(loadOriginalImageOfThumbnail(3));
-                repaint();                
-            });
-        } catch (Exception e) {
-            //TODO: Exception handling!
+            thumbnailImage = Thumbnails.of(getInputStream()).size(getThumbnailWidth(), getThumbnailWidth()).asBufferedImage();;
+            imageWidth = thumbnailImage.getWidth(this); //otherwise sorting will not work
+            imageHeight = thumbnailImage.getHeight(this);
+            repaint();
+        } catch (Exception ex) {
+            LOGGER.warning(ex.getMessage());
         }
     }
 

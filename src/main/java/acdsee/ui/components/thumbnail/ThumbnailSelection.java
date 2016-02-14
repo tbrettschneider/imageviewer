@@ -14,11 +14,14 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.Scrollable;
 import javax.swing.SwingUtilities;
 
 public class ThumbnailSelection extends JPanel implements Scrollable {
+
+    private static final Logger LOGGER = Logger.getLogger(ThumbnailSelection.class.getName());
 
     private final static Color COLOR_SELECTED_RECTANGLE = Color.decode("#009ACD");
     private final DrawSelectionListener drawSelectionListener;
@@ -49,9 +52,9 @@ public class ThumbnailSelection extends JPanel implements Scrollable {
             g2d.setColor(COLOR_SELECTED_RECTANGLE);
             final Composite originalComposite = g2d.getComposite();
             g2d.setComposite(ALPHACOMPOSITE);
-            g2d.fillRoundRect(offsetX, offsetY, width, height, 0, 0);
+            g2d.fillRect(offsetX, offsetY, width, height);
             g2d.setComposite(originalComposite);
-            g2d.drawRoundRect(offsetX, offsetY, width, height, 0, 0);
+            g2d.drawRect(offsetX, offsetY, width, height);
         }
     }
 
@@ -98,7 +101,7 @@ public class ThumbnailSelection extends JPanel implements Scrollable {
             final int height = Math.max(drawSelectionListener.getStartPoint().y, drawSelectionListener.getEndPoint().y) - offsetY;
             selection = new Rectangle();
             selection.setBounds(offsetX, offsetY, width, height);
-            System.out.println(getSelectedComponents().size() + " selected components...");
+            LOGGER.info("selection contains " + getSelectedComponents().size() + " components");
             setStartPoint(null);
             setEndPoint(null);
             repaint();

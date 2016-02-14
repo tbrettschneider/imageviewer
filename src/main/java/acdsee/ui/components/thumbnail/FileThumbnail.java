@@ -5,11 +5,12 @@ import java.awt.Graphics2D;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
@@ -17,8 +18,7 @@ import java.util.zip.ZipFile;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.ImageIcon;
-import net.coobird.thumbnailator.Thumbnails;
-import net.coobird.thumbnailator.tasks.UnsupportedFormatException;
+import org.apache.commons.io.IOUtils;
 import sun.awt.shell.ShellFolder;
 
 public class FileThumbnail extends Thumbnail<File> {
@@ -64,6 +64,11 @@ public class FileThumbnail extends Thumbnail<File> {
         return ImageIO.createImageInputStream(getSource());
     }
 
+    @Override
+    public InputStream getInputStream() throws IOException {
+        return IOUtils.toBufferedInputStream(new FileInputStream(getSource()));
+    }
+    
     private BufferedImage getThumbOfFirstZipEntry() {
         if (previewZipImage == null) {
             ZipFile zip = null;
@@ -85,19 +90,5 @@ public class FileThumbnail extends Thumbnail<File> {
             }
         }
         return previewZipImage;
-    }
-
-    @Override
-    public void run() {
-        try {
-            thumbnailImage = Thumbnails.of(getSource()).size(getThumbnailWidth(), getThumbnailWidth()).asBufferedImage();
-            imageWidth = thumbnailImage.getWidth(this); //otherwise sorting will not work
-            imageHeight = thumbnailImage.getHeight(this);
-            repaint();
-        } catch (UnsupportedFormatException e) {
-            LOGGER.log(Level.WARNING, e.getMessage());
-        } catch (IOException e) {
-            LOGGER.log(Level.WARNING, e.getMessage());
-        } 
     }
 }

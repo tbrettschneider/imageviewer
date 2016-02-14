@@ -44,7 +44,7 @@ public final class ZipEntryThumbnail extends Thumbnail<ZipEntry> {
     public ImageInputStream getImageInputStream() throws IOException {
         return ImageIO.createImageInputStream(getInputStream());
     }
-
+    
     public InputStream getInputStream() throws IOException {
         return IOUtils.toBufferedInputStream(getZipFile().getInputStream(getSource()));
     }
@@ -52,17 +52,5 @@ public final class ZipEntryThumbnail extends Thumbnail<ZipEntry> {
     @Override
     public ZipEntryThumbnail getTransferData(DataFlavor flavor) {
         return this;
-    }
-
-    @Override
-    public void run() {
-        try {
-            thumbnailImage = Thumbnails.of(getInputStream()).size(getThumbnailWidth(), getThumbnailWidth()).asBufferedImage();
-            imageWidth = thumbnailImage.getWidth(this); //otherwise sorting will not work
-            imageHeight = thumbnailImage.getHeight(this);
-            repaint();
-        } catch (IOException ex) {
-            Logger.getLogger(FileThumbnail.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 }

@@ -61,6 +61,7 @@ public class ScrollableThumbnailPane extends JScrollPane {
      */
     public ScrollableThumbnailPane() {
         super();
+        getViewport().setBackground(Color.WHITE);
         getViewport().setMinimumSize(new Dimension(getThumbSize() + THUMB_MARGIN_LEFT + THUMB_MARGIN_RIGHT, getThumbSize() + THUMB_MARGIN_TOP + THUMB_MARGIN_BOTTOM));
         this.mouseListener = new MouseAdapter() {
             @Override
