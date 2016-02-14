@@ -1,14 +1,14 @@
 package acdsee.ui.dialogs;
 
 import acdsee.base.Walkable;
+import acdsee.sorting.SortMenu;
 import acdsee.ui.actions.FullscreenAction;
-import acdsee.ui.components.thumbnail.DragThumbnailGlassPane;
-import acdsee.ui.components.previewer.PreviewPane;
-import acdsee.ui.components.thumbnail.ScrollableThumbnailPane;
 import acdsee.ui.components.directorybox.LimitedEntriesComboxBoxModel;
 import acdsee.ui.components.explorer.FilesystemTreeNode;
+import acdsee.ui.components.previewer.PreviewPane;
+import acdsee.ui.components.thumbnail.DragThumbnailGlassPane;
+import acdsee.ui.components.thumbnail.ScrollableThumbnailPane;
 import acdsee.ui.util.UIUtils;
-import acdsee.sorting.SortMenu;
 import java.awt.Dimension;
 import java.io.File;
 import java.util.concurrent.ExecutorService;
@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.tree.TreePath;
 
@@ -34,6 +35,11 @@ public class ApplicationWindow extends javax.swing.JFrame {
      */
     public ApplicationWindow() {
         super("ImageViewer v0.1");
+        ToolTipManager.sharedInstance().setEnabled(true);
+        ToolTipManager.sharedInstance().setInitialDelay(1500);
+        ToolTipManager.sharedInstance().setDismissDelay(4000);
+        ToolTipManager.sharedInstance().setReshowDelay(1500);
+        
 //        final int cores = Runtime.getRuntime().availableProcessors();
 //        final int maxThreads = cores/2 + 1;
 //        executorService = Executors.newFixedThreadPool(maxThreads);

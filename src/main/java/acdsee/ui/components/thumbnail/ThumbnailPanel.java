@@ -5,8 +5,13 @@ import static acdsee.ui.components.thumbnail.ScrollableThumbnailPane.THUMB_MARGI
 import static acdsee.ui.components.thumbnail.ScrollableThumbnailPane.THUMB_MARGIN_RIGHT;
 import static acdsee.ui.components.thumbnail.ScrollableThumbnailPane.THUMB_MARGIN_TOP;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.MouseEvent;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.ToolTipManager;
 
 /**
  *
@@ -53,4 +58,21 @@ public class ThumbnailPanel extends JPanel {
 
         return d;
     }
+    
+//        @Override
+//    public String getToolTipText(MouseEvent evt) {
+//        System.out.println(evt.getSource());
+//        System.out.println(this.getComponentCount());
+//        System.out.println(this.getClass());
+//        System.out.println(evt.getPoint());
+//        System.out.println(evt.getLocationOnScreen());
+//        JComponent component = (JComponent)SwingUtilities.getDeepestComponentAt(this, evt.getX(), evt.getY());
+//        Component c2 = getComponentAt(evt.getPoint());
+//        System.out.println(c2);
+//        if (component != null) {
+//            System.out.println(component);
+//            return component.getToolTipText();
+//        }
+//        return null;
+//    }
 }

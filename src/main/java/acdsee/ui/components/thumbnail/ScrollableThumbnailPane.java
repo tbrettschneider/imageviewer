@@ -46,8 +46,7 @@ public class ScrollableThumbnailPane extends JScrollPane {
     public static final int THUMB_MARGIN_BOTTOM = 10;
     public static final int THUMB_MARGIN_TOP = 10;
 
-    private static ScrollableThumbnailPane thumbnailPane;
-    private ThumbnailPanel panel;
+    private ThumbnailPanel thumbnailPanel;
     private PreviewPane previewpane;
     private ExecutorService executorService;
     private Walkable walkable;
@@ -165,10 +164,10 @@ public class ScrollableThumbnailPane extends JScrollPane {
         setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         setRequestFocusEnabled(true);
         setAutoscrolls(true);
-        panel = new ThumbnailPanel(this);
-        ThumbnailSelection sc = new ThumbnailSelection(panel);
+        thumbnailPanel = new ThumbnailPanel(this);
+        ThumbnailSelection sc = new ThumbnailSelection(thumbnailPanel);
         getViewport().add(sc);
-        panel.setLayout(new FlowLayout(FlowLayout.LEFT, THUMB_MARGIN_RIGHT, THUMB_MARGIN_BOTTOM));
+        thumbnailPanel.setLayout(new FlowLayout(FlowLayout.LEFT, THUMB_MARGIN_RIGHT, THUMB_MARGIN_BOTTOM));
         sc.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -188,11 +187,11 @@ public class ScrollableThumbnailPane extends JScrollPane {
                 if (SwingUtilities.isRightMouseButton(evt)) {
                     final JPopupMenu sortPopupMenu = new JPopupMenu();
                     final SortMenu sort = new SortMenu(ScrollableThumbnailPane.this);
-                    sort.setSortableContainer(panel);
+                    sort.setSortableContainer(thumbnailPanel);
                     sortPopupMenu.add(sort);
-                    sortPopupMenu.show(panel, evt.getX(), evt.getY());
+                    sortPopupMenu.show(thumbnailPanel, evt.getX(), evt.getY());
                 }
-            }
+            }                      
         });
         this.addComponentListener(new ComponentAdapter() {
             @Override
@@ -200,9 +199,9 @@ public class ScrollableThumbnailPane extends JScrollPane {
                 if ((getThumbSize() + THUMB_MARGIN_LEFT + THUMB_MARGIN_RIGHT + getVerticalScrollBar().getWidth()) > getWidth()) {
                     setThumbSize(getWidth() - THUMB_MARGIN_LEFT - THUMB_MARGIN_RIGHT - getVerticalScrollBar().getWidth());
                 }
-                panel.invalidate();
-                panel.validate();
-                panel.repaint();
+                thumbnailPanel.invalidate();
+                thumbnailPanel.validate();
+                thumbnailPanel.repaint();
             }
         });
         pcs = new PropertyChangeSupport(this);
@@ -218,7 +217,7 @@ public class ScrollableThumbnailPane extends JScrollPane {
     }
     
     public final JPanel getPanel() {
-        return this.panel;
+        return this.thumbnailPanel;
     }
 
     private void refresh() {

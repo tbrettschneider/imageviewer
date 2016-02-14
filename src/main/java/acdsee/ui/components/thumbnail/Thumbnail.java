@@ -25,6 +25,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.logging.Logger;
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.JPanel;
+import javax.swing.ToolTipManager;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -42,7 +43,6 @@ public abstract class Thumbnail<E> extends JPanel implements Runnable, Transfera
     protected final static Composite ALPHACOMPOSITE = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
     protected static final Color BORDER_COLOR = new Color(236, 233, 216);
     protected static Dimension dimension = new Dimension(135, 135);
-    protected int subsampling = 1;
     protected int imageWidth, imageHeight;
     protected float imageRatio;
     protected BufferedImage thumbnailImage;
@@ -55,9 +55,10 @@ public abstract class Thumbnail<E> extends JPanel implements Runnable, Transfera
     public Thumbnail(final E source, final ExecutorService threadPool) {
         this.source = source;
         this.threadpool = threadPool;
-        setOpaque(true);
+        setOpaque(false);
         setBackground(Color.WHITE);
-                
+        ToolTipManager.sharedInstance().registerComponent(this);
+//                
         //TODO: try to move this one to ThumbnailPane... 
         MyDragGestureListener mdgl = new MyDragGestureListener(this);
         DragSource dragSource = new DragSource();

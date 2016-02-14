@@ -122,7 +122,7 @@ public class ThumbnailSelection extends JPanel implements Scrollable {
         return selectedComponents;
     }
     
-        @Override
+    @Override
     public Dimension getPreferredScrollableViewportSize() {
         return getPreferredSize();
     }
@@ -141,8 +141,7 @@ public class ThumbnailSelection extends JPanel implements Scrollable {
 
     @Override
     public boolean getScrollableTracksViewportWidth() {
-        return Boolean.TRUE;
-        
+        return Boolean.TRUE;       
     }
 
     @Override
