@@ -1,10 +1,12 @@
 package acdsee.ui.components.thumbnail;
 
+import acdsee.ui.util.BaseMouseListener;
 import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Composite;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -12,27 +14,24 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collection;
-
-import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.Scrollable;
 import javax.swing.SwingUtilities;
 
-import acdsee.ui.util.BaseMouseListener;
-
-public class ThumbnailSelection extends JPanel {
+public class ThumbnailSelection extends JPanel implements Scrollable {
 
     private final static Color COLOR_SELECTED_RECTANGLE = Color.decode("#009ACD");
     private final DrawSelectionListener drawSelectionListener;
     private final Composite ALPHACOMPOSITE = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
     private Rectangle selection;
-    private final JComponent c;
+    private final ThumbnailPanel thumbnailPanel;
 
-    public ThumbnailSelection(JComponent c) {
+    public ThumbnailSelection(ThumbnailPanel thumbnailPanel) {
         super(new BorderLayout(0, 0));
         setOpaque(false);
         setAutoscrolls(true);
-        this.c = c;
-        add(c, BorderLayout.CENTER);
+        this.thumbnailPanel = thumbnailPanel;
+        add(this.thumbnailPanel, BorderLayout.CENTER);
         drawSelectionListener = new DrawSelectionListener();
         addMouseListener(drawSelectionListener);
         addMouseMotionListener(drawSelectionListener);
@@ -82,7 +81,7 @@ public class ThumbnailSelection extends JPanel {
             endPoint = e.getPoint();
             repaint();
             Rectangle r = new Rectangle(e.getX(), e.getY(), 1, 1);
-            c.scrollRectToVisible(r);
+            thumbnailPanel.scrollRectToVisible(r);
         }
 
         @Override
@@ -118,5 +117,33 @@ public class ThumbnailSelection extends JPanel {
             }
         }
         return selectedComponents;
+    }
+    
+        @Override
+    public Dimension getPreferredScrollableViewportSize() {
+        return getPreferredSize();
+    }
+
+    @Override
+    public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
+        return thumbnailPanel.getThumbSize() + ScrollableThumbnailPane.THUMB_MARGIN_TOP;
+    }
+
+    @Override
+    public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
+        int rowHeight = thumbnailPanel.getThumbSize() + ScrollableThumbnailPane.THUMB_MARGIN_TOP;
+        int numberOfVisibleRows = visibleRect.height / rowHeight;
+        return numberOfVisibleRows * rowHeight;
+    }
+
+    @Override
+    public boolean getScrollableTracksViewportWidth() {
+        return true;
+        
+    }
+
+    @Override
+    public boolean getScrollableTracksViewportHeight() {
+        return false;
     }
 }

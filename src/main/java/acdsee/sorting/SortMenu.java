@@ -1,6 +1,6 @@
 package acdsee.sorting;
 
-import acdsee.ui.components.thumbnail.ThumbnailPane;
+import acdsee.ui.components.thumbnail.ScrollableThumbnailPane;
 import acdsee.sorting.comparator.ComparatorFactory;
 import java.awt.Component;
 import java.awt.Container;
@@ -22,14 +22,14 @@ public class SortMenu extends JMenu {
     private JMenuItem sortBySize;
     private JMenuItem sortByModifiedDate;
     private JMenuItem sortByImageProperties;
-    private ThumbnailPane tp;
+    private ScrollableThumbnailPane tp;
 
     public SortMenu() {
         super("Sort");
         initialize();
     }
 
-    public SortMenu(ThumbnailPane tp) {
+    public SortMenu(ScrollableThumbnailPane tp) {
         super("Sort");
         this.tp = tp;
         initialize();

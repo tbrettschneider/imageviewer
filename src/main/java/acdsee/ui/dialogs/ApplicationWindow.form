@@ -186,8 +186,8 @@
                 <Property name="text" type="java.lang.String" value="Sort"/>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new SortMenu((ThumbnailPane)thumbnailPane)"/>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="((SortMenu)menuitemSort).setSortableContainer(((ThumbnailPane)thumbnailPane).getPanel());"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new SortMenu((acdsee.ui.components.thumbnail.ScrollableThumbnailPane)thumbnailPane)"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="((SortMenu)menuitemSort).setSortableContainer(((acdsee.ui.components.thumbnail.ScrollableThumbnailPane)thumbnailPane).getPanel());"/>
               </AuxValues>
             </Menu>
           </SubComponents>
@@ -323,7 +323,7 @@
                 </Property>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="ThumbnailPane.getThumbnailPane();"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new acdsee.ui.components.thumbnail.ScrollableThumbnailPane()"/>
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">

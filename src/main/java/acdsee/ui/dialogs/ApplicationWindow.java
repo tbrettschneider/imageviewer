@@ -4,7 +4,7 @@ import acdsee.base.Walkable;
 import acdsee.ui.actions.FullscreenAction;
 import acdsee.ui.components.thumbnail.DragThumbnailGlassPane;
 import acdsee.ui.components.previewer.PreviewPane;
-import acdsee.ui.components.thumbnail.ThumbnailPane;
+import acdsee.ui.components.thumbnail.ScrollableThumbnailPane;
 import acdsee.ui.components.directorybox.LimitedEntriesComboxBoxModel;
 import acdsee.ui.components.explorer.FilesystemTreeNode;
 import acdsee.ui.util.UIUtils;
@@ -41,8 +41,8 @@ public class ApplicationWindow extends javax.swing.JFrame {
         initComponents();
         setGlassPane(GLASSPANE);
         previewpane.setExecutorService(executorService);
-        ((ThumbnailPane) thumbnailPane).setExecutorService(executorService);
-        ((ThumbnailPane) thumbnailPane).setPreviewpane(previewpane);
+        ((ScrollableThumbnailPane) thumbnailPane).setExecutorService(executorService);
+        ((ScrollableThumbnailPane) thumbnailPane).setPreviewpane(previewpane);
     }
 
     /**
@@ -79,7 +79,7 @@ public class ApplicationWindow extends javax.swing.JFrame {
         menuView = new javax.swing.JMenu();
         menuitemFullscreen = new javax.swing.JMenuItem();
         jSeparator6 = new javax.swing.JSeparator();
-        menuitemSort = new SortMenu((ThumbnailPane)thumbnailPane);
+        menuitemSort = new SortMenu((ScrollableThumbnailPane)thumbnailPane);
         menuCreate = new javax.swing.JMenu();
         menuTools = new javax.swing.JMenu();
         menuitemOptions = new javax.swing.JMenuItem();
@@ -91,7 +91,7 @@ public class ApplicationWindow extends javax.swing.JFrame {
         splitpaneH = new javax.swing.JSplitPane();
         panelRight = new javax.swing.JPanel();
         comboboxLocation = new acdsee.ui.components.directorybox.DirectoryBox();
-        thumbnailPane = ThumbnailPane.getThumbnailPane();
+        thumbnailPane = new ScrollableThumbnailPane();
         splitpaneV = new javax.swing.JSplitPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         treeFilesystem = new acdsee.ui.components.explorer.FilesystemTree();
@@ -200,7 +200,7 @@ public class ApplicationWindow extends javax.swing.JFrame {
 
         menuitemSort.setMnemonic('S');
         menuitemSort.setText("Sort");
-        ((SortMenu)menuitemSort).setSortableContainer(((ThumbnailPane)thumbnailPane).getPanel());
+        ((SortMenu)menuitemSort).setSortableContainer(((ScrollableThumbnailPane)thumbnailPane).getPanel());
         menuView.add(menuitemSort);
 
         menubar.add(menuView);
@@ -327,7 +327,7 @@ public class ApplicationWindow extends javax.swing.JFrame {
         final FilesystemTreeNode node = (FilesystemTreeNode) path.getLastPathComponent();
         final File fileObj = node.getDirectory();
         final Walkable walkable = Walkable.getInstance(fileObj);
-        ((ThumbnailPane)thumbnailPane).setSource(walkable);
+        ((ScrollableThumbnailPane)thumbnailPane).setSource(walkable);
         /*new Thread() {
             @Override
             public void run() {
@@ -367,7 +367,7 @@ public class ApplicationWindow extends javax.swing.JFrame {
 
     private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
         if (!jSlider1.getValueIsAdjusting()) {
-            ThumbnailPane tp = (ThumbnailPane)thumbnailPane;
+            ScrollableThumbnailPane tp = (ScrollableThumbnailPane)thumbnailPane;
             tp.setThumbSize(jSlider1.getValue());
             int thumbSize = tp.getThumbSize();
             tp.getVerticalScrollBar().setBlockIncrement(thumbSize + 10);
