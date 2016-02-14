@@ -44,10 +44,14 @@ public class ThumbnailSelection extends JPanel implements Scrollable {
     protected void paintChildren(Graphics g) {
         super.paintChildren(g);
         if (drawSelectionListener.getStartPoint() != null && drawSelectionListener.getEndPoint() != null) {
-            final int offsetX = Math.min(drawSelectionListener.getStartPoint().x, drawSelectionListener.getEndPoint().x);
-            final int offsetY = Math.min(drawSelectionListener.getStartPoint().y, drawSelectionListener.getEndPoint().y);
-            final int width = Math.max(drawSelectionListener.getStartPoint().x, drawSelectionListener.getEndPoint().x) - offsetX;
-            final int height = Math.max(drawSelectionListener.getStartPoint().y, drawSelectionListener.getEndPoint().y) - offsetY;
+            final int startX = drawSelectionListener.getStartPoint().x;
+            final int startY = drawSelectionListener.getStartPoint().y;
+            final int endX = drawSelectionListener.getEndPoint().x;
+            final int endY = drawSelectionListener.getEndPoint().y;
+            final int offsetX = Math.min(startX, endX);
+            final int offsetY = Math.min(startY, endY);
+            final int width = Math.max(startX, endX) - offsetX;
+            final int height = Math.max(startY, endY) - offsetY;
             final Graphics2D g2d = (Graphics2D) g;
             g2d.setColor(COLOR_SELECTED_RECTANGLE);
             final Composite originalComposite = g2d.getComposite();

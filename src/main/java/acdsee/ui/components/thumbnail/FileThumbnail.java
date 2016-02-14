@@ -56,4 +56,9 @@ public class FileThumbnail extends Thumbnail<File> {
     public InputStream getInputStream() throws IOException {
         return IOUtils.toBufferedInputStream(new FileInputStream(getSource()));
     }
+
+    @Override
+    public long getFileSize() {
+        return getSource().length();
+    }
 }

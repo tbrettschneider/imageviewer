@@ -28,6 +28,8 @@ import javax.imageio.stream.ImageInputStream;
 import javax.swing.JPanel;
 import javax.swing.ToolTipManager;
 import net.coobird.thumbnailator.Thumbnails;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 /**
@@ -150,6 +152,8 @@ public abstract class Thumbnail<E> extends JPanel implements Runnable, Transfera
 
     public abstract InputStream getInputStream() throws IOException;
     
+    public abstract long getFileSize();
+    
     @Override
     public void run() {
         try {
@@ -175,7 +179,7 @@ public abstract class Thumbnail<E> extends JPanel implements Runnable, Transfera
      * @return the width of the sourceimage
      */
     public final int getImageWidth() {
-        return imageWidth;
+        return this.imageWidth;
     }
 
     /**
@@ -183,7 +187,7 @@ public abstract class Thumbnail<E> extends JPanel implements Runnable, Transfera
      * @return the height of the sourceimage
      */
     public final int getImageHeight() {
-        return imageHeight;
+        return this.imageHeight;
     }
 
     /**
@@ -239,11 +243,13 @@ public abstract class Thumbnail<E> extends JPanel implements Runnable, Transfera
         final StringBuilder sb = new StringBuilder();
         sb.append("<HTML>");
         sb.append(getSourceFilename());
+        sb.append("<br/>");
+        sb.append(FileUtils.byteCountToDisplaySize(getFileSize()));
         if (imageSize != null) {
             sb.append("<br/>");
-            sb.append(imageSize.getWidth());
-            sb.append(" x ");
-            sb.append(imageSize.getHeight());
+            sb.append((int)imageSize.getWidth());
+            sb.append("x");
+            sb.append((int)imageSize.getHeight());
         }
         sb.append("<br/></HTML>");
         return sb.toString();

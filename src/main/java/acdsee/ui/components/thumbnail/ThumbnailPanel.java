@@ -6,6 +6,7 @@ import static acdsee.ui.components.thumbnail.ScrollableThumbnailPane.THUMB_MARGI
 import static acdsee.ui.components.thumbnail.ScrollableThumbnailPane.THUMB_MARGIN_TOP;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import javax.swing.JPanel;
 
 /**
@@ -35,8 +36,9 @@ public class ThumbnailPanel extends JPanel {
     public java.awt.Dimension getPreferredSize() {
         final java.awt.Insets insets = getInsets();
         final int count = getComponentCount();
-        final int hgap = ((java.awt.FlowLayout) getLayout()).getHgap();
-        final int vgap = ((java.awt.FlowLayout) getLayout()).getVgap();
+        final FlowLayout layout = (FlowLayout)getLayout();
+        final int hgap = layout.getHgap();
+        final int vgap = layout.getVgap();
         final int cols = getVisibleRect().width / (getThumbSize() + 10);
 
         if (cols == 0) {
