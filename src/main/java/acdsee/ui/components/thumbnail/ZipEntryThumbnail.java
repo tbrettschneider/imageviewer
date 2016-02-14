@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.ImageIcon;
 import net.coobird.thumbnailator.Thumbnails;
+import org.apache.commons.io.IOUtils;
 
 public final class ZipEntryThumbnail extends Thumbnail<ZipEntry> {
 
@@ -45,7 +46,7 @@ public final class ZipEntryThumbnail extends Thumbnail<ZipEntry> {
     }
 
     public InputStream getInputStream() throws IOException {
-        return getZipFile().getInputStream(getSource());
+        return IOUtils.toBufferedInputStream(getZipFile().getInputStream(getSource()));
     }
 
     @Override

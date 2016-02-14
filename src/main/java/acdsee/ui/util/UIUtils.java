@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 
@@ -84,5 +86,23 @@ public class UIUtils {
         component.setLocation(
                 (screenSize.width - componentSize.width) / 2,
                 (screenSize.height - componentSize.height) / 2);
+    }
+    
+    /**
+     * Checks if <code>MouseEvent</code> is a double-click.
+     * @param evt the <code>MouseEvent</code>
+     * @return true if event represents a double-click, false if not
+     */
+    public static boolean isDoubleClick(MouseEvent evt) {
+        return (SwingUtilities.isLeftMouseButton(evt) && evt.getClickCount() == 2);
+    }
+    
+    /**
+     * Checks if the escape key is pressed.
+     * @param evt the <code>KeyEvent</code>
+     * @return true if escape key is pressed, false if not
+     */
+    public static boolean isEscapePressed(KeyEvent evt) {
+        return (evt.getKeyCode() == KeyEvent.VK_ESCAPE);
     }
 }

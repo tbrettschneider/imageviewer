@@ -5,6 +5,7 @@ import acdsee.base.Directory;
 import acdsee.base.Walkable;
 import acdsee.base.ZipFile;
 import acdsee.sorting.SortMenu;
+import acdsee.ui.util.UIUtils;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Desktop;
@@ -84,23 +85,19 @@ public class ThumbnailPane extends JScrollPane implements AdjustmentListener {
         this.mouseListener = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
-                getPanel().requestFocusInWindow();
-                
-                final Thumbnail proxy = (Thumbnail)evt.getSource();
-                
-                if (SwingUtilities.isLeftMouseButton(evt) && evt.getClickCount() > 1) {
-                    if (proxy instanceof FileThumbnail) {
-                        File f = ((FileThumbnail) proxy).getSource();
+                getPanel().requestFocusInWindow();                
+                final Thumbnail thumbnail = (Thumbnail)evt.getSource();                
+                if (UIUtils.isDoubleClick(evt)) {
+                    if (thumbnail instanceof FileThumbnail) {
+                        File f = ((FileThumbnail) thumbnail).getSource();
                         Walkable walkable = Walkable.getInstance(f);
                         setSource(walkable);
                     }
                 } else if (SwingUtilities.isRightMouseButton(evt)) {
-                    JPopupMenu popup = new JPopupMenu();
-                    
-                    // Desktop integration...
-                    JMenu nativeCommands = new JMenu("Native Cmd");
-                    if (proxy instanceof FileThumbnail && Desktop.isDesktopSupported()) {
-                        final File selectedFile = ((FileThumbnail) proxy).getSource();
+                    JPopupMenu popup = new JPopupMenu();                   
+                    JMenu nativeCommands = new JMenu("Native Cmd"); // Desktop integration...
+                    if (thumbnail instanceof FileThumbnail && Desktop.isDesktopSupported()) {
+                        final File selectedFile = ((FileThumbnail) thumbnail).getSource();
                         if (selectedFile.isFile()) {
                             JMenuItem nativeCmd = new JMenuItem("Open...");
                             nativeCmd.addActionListener((ActionEvent arg0) -> {
@@ -110,8 +107,7 @@ public class ThumbnailPane extends JScrollPane implements AdjustmentListener {
                                     Logger.getLogger(ThumbnailPane.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                             });
-                            nativeCommands.add(nativeCmd);
-                            
+                            nativeCommands.add(nativeCmd);                            
                             nativeCmd = new JMenuItem("Edit...");
                             nativeCmd.addActionListener((ActionEvent arg0) -> {
                                 try {
@@ -124,13 +120,12 @@ public class ThumbnailPane extends JScrollPane implements AdjustmentListener {
                         }
                         popup.add(nativeCommands);
                         popup.addSeparator();
-                    }
-                    
+                    }                   
                     JMenuItem mi = new JMenuItem("Delete");
                     mi.addActionListener((ActionEvent arg0) -> {
-                        final File selectedFile = ((FileThumbnail) proxy).getSource();
+                        final File selectedFile = ((FileThumbnail) thumbnail).getSource();
                         FileUtils.deleteQuietly(selectedFile);
-                        getPanel().remove(proxy);
+                        getPanel().remove(thumbnail);
                         revalidate();
                     });
                     popup.add(mi);
@@ -139,27 +134,21 @@ public class ThumbnailPane extends JScrollPane implements AdjustmentListener {
                         refresh();
                     });
                     popup.add(mi);
-                    popup.show(proxy, evt.getX(), evt.getY());
-                }
-                
-                try {
-                    
-                    if (evt.getClickCount() > 1) {
+                    popup.show(thumbnail, evt.getX(), evt.getY());
+                }        
+                try {                   
+                    if (UIUtils.isDoubleClick(evt)) {
                         // Bild öffnen über OS
-                        if (Desktop.isDesktopSupported()) {
-                            
+                        if (Desktop.isDesktopSupported()) {                           
                         }
-                        Desktop.getDesktop().open(((FileThumbnail)proxy).getSource());
+                        Desktop.getDesktop().open(((FileThumbnail)thumbnail).getSource());
                         final JFrame w = new JFrame();
-                        w.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                        
+                        w.setExtendedState(JFrame.MAXIMIZED_BOTH); 
                         w.setUndecorated(true);
                         w.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds());
                         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-                        gd.setFullScreenWindow(w);
-                        
-                        final Container parent = previewpane.getParent();
-                        
+                        gd.setFullScreenWindow(w);                        
+                        final Container parent = previewpane.getParent();                       
                         w.getContentPane().setBackground(Color.BLACK);
                         w.getContentPane().add(previewpane);
                         w.setVisible(true);
@@ -168,32 +157,25 @@ public class ThumbnailPane extends JScrollPane implements AdjustmentListener {
                         previewpane.addKeyListener(new KeyAdapter() {
                             @Override
                             public void keyPressed(KeyEvent evt) {
-                                int keyCode = evt.getKeyCode();
-                                if (keyCode == KeyEvent.VK_ESCAPE) {
-                                    try {
-                                        w.setVisible(false);
-                                        previewpane.removeKeyListener(this);
-                                        parent.add(previewpane);
-                                        w.dispose();
-                                    } catch (Exception ex) {
-                                        //TODO
-                                    }
+                                if (UIUtils.isEscapePressed(evt)) {
+                                    w.setVisible(false);
+                                    previewpane.removeKeyListener(this);
+                                    parent.add(previewpane);
+                                    w.dispose();
                                 }
                             }
                         });
-                    }
-                    
-                    if (proxy instanceof FileThumbnail) {
-                        previewpane.setSource(/*proxy.loadOriginalImage()); */((FileThumbnail) proxy).getSource());
-                    } else if (proxy instanceof ZipEntryThumbnail) {
-                        previewpane.setSource(((ZipEntryThumbnail) proxy).getInputStream());
+                    }                  
+                    if (thumbnail instanceof FileThumbnail) {
+                        previewpane.setSource(((FileThumbnail) thumbnail).getSource());
+                    } else if (thumbnail instanceof ZipEntryThumbnail) {
+                        previewpane.setSource(((ZipEntryThumbnail) thumbnail).getInputStream());
                     }
                 } catch (Exception e) {
                     System.out.println(e);
                 }
             }
         };
-
         setBorder(null);
         setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         setRequestFocusEnabled(true);
