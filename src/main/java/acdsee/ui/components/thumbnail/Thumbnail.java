@@ -26,12 +26,16 @@ import javax.imageio.ImageReadParam;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.JPanel;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 /**
  *
  * @author Tommy Brettschneider
  */
 public abstract class Thumbnail<E> extends JPanel implements Runnable, Transferable {
 
+    private static final Color COLOR_SELECTED_THUMBNAIL = Color.decode("#B2DFEE");
+    
     public final static GraphicsConfiguration graphicsConfiguration = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
     protected final static Composite ALPHACOMPOSITE = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
     protected static final Color BORDER_COLOR = new Color(236, 233, 216);
@@ -51,6 +55,8 @@ public abstract class Thumbnail<E> extends JPanel implements Runnable, Transfera
         this.threadpool = threadPool;
         setOpaque(true);
         setBackground(Color.WHITE);
+        
+        //TODO: try to move this one to ThumbnailPane... 
         MyDragGestureListener mdgl = new MyDragGestureListener(this);
         DragSource dragSource = new DragSource();
         DragGestureRecognizer dgr = dragSource.createDefaultDragGestureRecognizer(
@@ -59,6 +65,11 @@ public abstract class Thumbnail<E> extends JPanel implements Runnable, Transfera
         dragSource.addDragSourceListener((DragSourceListener) ApplicationWindow.GLASSPANE);
     }
     
+    /**
+     * Gets the filename of the thumbnail's source object, e.g. <File> or <ZipEntry> instance.
+     * @return the filename of the thumbnail's source
+     */
+    protected abstract String getSourceFilename();
     
     /**
      * Gets the <code>Dimension</code> of each and every thumbnail.
@@ -108,7 +119,7 @@ public abstract class Thumbnail<E> extends JPanel implements Runnable, Transfera
         g2d.drawRect(0, 0, getThumbnailWidth()-1, getThumbnailHeight()-1); 
                 
         if (isSelected()) {
-            g2d.setColor(Color.BLUE);
+            g2d.setColor(COLOR_SELECTED_THUMBNAIL);
             g2d.setComposite(ALPHACOMPOSITE);
             g2d.fillRect(0, 0, getThumbnailWidth()-1, getThumbnailHeight()-1);
         }
@@ -317,5 +328,23 @@ public abstract class Thumbnail<E> extends JPanel implements Runnable, Transfera
 
     public boolean isSelected() {
         return this.selected;
+    }
+
+    @Override
+    public String getToolTipText() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append("<HTML>");
+        sb.append(getSourceFilename());
+        sb.append("<br/>");
+        sb.append(getImageWidth());
+        sb.append(" x ");
+        sb.append(getImageHeight());
+        sb.append("<br/></HTML>");
+        return sb.toString();
+    }
+    
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }
 }

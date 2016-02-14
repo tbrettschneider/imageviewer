@@ -3,7 +3,6 @@ package acdsee.ui.components.thumbnail;
 import static acdsee.ui.components.thumbnail.Thumbnail.getThumbnailWidth;
 import java.awt.Graphics2D;
 import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.ExecutorService;
@@ -11,12 +10,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.ImageIcon;
 import net.coobird.thumbnailator.Thumbnails;
-import org.apache.commons.io.IOUtils;
 
 public final class ZipEntryThumbnail extends Thumbnail<ZipEntry> {
 
@@ -32,6 +29,11 @@ public final class ZipEntryThumbnail extends Thumbnail<ZipEntry> {
         return zipFile;
     }
 
+    @Override
+    protected String getSourceFilename() {
+        return getSource().getName();
+    }
+    
     @Override
     public void paintProxyImage(Graphics2D g2d) {
         g2d.drawImage(icon.getImage(), (getThumbnailWidth() - icon.getIconWidth()) / 2, (getThumbnailHeight() - icon.getIconHeight()) / 2, this);
@@ -49,11 +51,6 @@ public final class ZipEntryThumbnail extends Thumbnail<ZipEntry> {
     @Override
     public ZipEntryThumbnail getTransferData(DataFlavor flavor) {
         return this;
-    }
-
-    @Override
-    public String toString() {
-        return "<HTML>" + getSource().getName() /*+ "<br/>" + getImageWidth() + " x " + getImageHeight() */ + "<br/></HTML>";
     }
 
     @Override

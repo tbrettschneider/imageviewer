@@ -21,6 +21,7 @@ import acdsee.ui.util.BaseMouseListener;
 
 public class ThumbnailSelection extends JPanel {
 
+    private final static Color COLOR_SELECTED_RECTANGLE = Color.decode("#009ACD");
     private final DrawSelectionListener drawSelectionListener;
     private final Composite ALPHACOMPOSITE = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
     private Rectangle selection;
@@ -46,7 +47,7 @@ public class ThumbnailSelection extends JPanel {
             final int width = Math.max(drawSelectionListener.getStartPoint().x, drawSelectionListener.getEndPoint().x) - offsetX;
             final int height = Math.max(drawSelectionListener.getStartPoint().y, drawSelectionListener.getEndPoint().y) - offsetY;
             final Graphics2D g2d = (Graphics2D) g;
-            g2d.setColor(Color.BLUE);
+            g2d.setColor(COLOR_SELECTED_RECTANGLE);
             final Composite originalComposite = g2d.getComposite();
             g2d.setComposite(ALPHACOMPOSITE);
             g2d.fillRoundRect(offsetX, offsetY, width, height, 0, 0);

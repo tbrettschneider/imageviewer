@@ -32,6 +32,11 @@ public class FileThumbnail extends Thumbnail<File> {
     }
 
     @Override
+    protected String getSourceFilename() {
+        return getSource().getName();
+    }
+    
+    @Override
     public List<File> getTransferData(DataFlavor flavor) {
         final List<File> files = new ArrayList<>();
         files.add(getSource());
@@ -80,11 +85,6 @@ public class FileThumbnail extends Thumbnail<File> {
             }
         }
         return previewZipImage;
-    }
-
-    @Override
-    public String toString() {
-        return "<HTML>" + getSource().getName() /*+ "<br/>" + getImageWidth() + " x " + getImageHeight() */ + "<br/></HTML>";
     }
 
     @Override
