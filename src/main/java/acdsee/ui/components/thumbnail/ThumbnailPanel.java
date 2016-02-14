@@ -5,13 +5,8 @@ import static acdsee.ui.components.thumbnail.ScrollableThumbnailPane.THUMB_MARGI
 import static acdsee.ui.components.thumbnail.ScrollableThumbnailPane.THUMB_MARGIN_RIGHT;
 import static acdsee.ui.components.thumbnail.ScrollableThumbnailPane.THUMB_MARGIN_TOP;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.event.MouseEvent;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.ToolTipManager;
 
 /**
  *

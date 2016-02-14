@@ -7,8 +7,11 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -104,5 +107,17 @@ public class UIUtils {
      */
     public static boolean isEscapePressed(KeyEvent evt) {
         return (evt.getKeyCode() == KeyEvent.VK_ESCAPE);
+    }
+    
+    public static Dimension getImageSize(ImageInputStream iis) {
+        try {
+            BufferedImage readImage = ImageIO.read(iis);
+            int h = readImage.getHeight();
+            int w = readImage.getWidth();
+            return new Dimension(w, h);
+        } catch (Exception ex) {
+            
+        }
+        return null;
     }
 }

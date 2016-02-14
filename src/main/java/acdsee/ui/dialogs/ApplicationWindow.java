@@ -13,6 +13,7 @@ import java.awt.Dimension;
 import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,6 +28,8 @@ import javax.swing.tree.TreePath;
  */
 public class ApplicationWindow extends javax.swing.JFrame {
 
+    private static final Logger LOGGER = Logger.getLogger(ApplicationWindow.class.getName());
+
     public static final JPanel GLASSPANE = new DragThumbnailGlassPane();
     private static ExecutorService executorService;
     
@@ -35,16 +38,9 @@ public class ApplicationWindow extends javax.swing.JFrame {
      */
     public ApplicationWindow() {
         super("ImageViewer v0.1");
-        ToolTipManager.sharedInstance().setEnabled(true);
-        ToolTipManager.sharedInstance().setInitialDelay(1500);
-        ToolTipManager.sharedInstance().setDismissDelay(4000);
-        ToolTipManager.sharedInstance().setReshowDelay(1500);
-        
-//        final int cores = Runtime.getRuntime().availableProcessors();
-//        final int maxThreads = cores/2 + 1;
-//        executorService = Executors.newFixedThreadPool(maxThreads);
-        executorService = Executors.newCachedThreadPool();
-//        System.out.println("Running with " + maxThreads + " threads...");
+        final int threads = Runtime.getRuntime().availableProcessors()/2 + 1;
+        executorService = Executors.newFixedThreadPool(threads);
+        LOGGER.info("Running with " + threads + " threads...");
         initComponents();
         setGlassPane(GLASSPANE);
         previewpane.setExecutorService(executorService);
@@ -388,6 +384,10 @@ public class ApplicationWindow extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public static void main(String args[]) throws Exception {
+        ToolTipManager.sharedInstance().setEnabled(true);
+        ToolTipManager.sharedInstance().setInitialDelay(1500);
+        ToolTipManager.sharedInstance().setDismissDelay(4000);
+        ToolTipManager.sharedInstance().setReshowDelay(1500);
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new ApplicationWindow();

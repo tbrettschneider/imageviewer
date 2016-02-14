@@ -1,6 +1,7 @@
 package acdsee.ui.components.thumbnail;
 
 import acdsee.ui.dialogs.ApplicationWindow;
+import acdsee.ui.util.UIUtils;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Composite;
@@ -229,13 +230,21 @@ public abstract class Thumbnail<E> extends JPanel implements Runnable, Transfera
 
     @Override
     public String getToolTipText() {
+        Dimension imageSize = null;
+        try {
+            imageSize = UIUtils.getImageSize(getImageInputStream());
+        } catch (IOException e) {
+            
+        }
         final StringBuilder sb = new StringBuilder();
         sb.append("<HTML>");
         sb.append(getSourceFilename());
-        sb.append("<br/>");
-        sb.append(getImageWidth());
-        sb.append(" x ");
-        sb.append(getImageHeight());
+        if (imageSize != null) {
+            sb.append("<br/>");
+            sb.append(imageSize.getWidth());
+            sb.append(" x ");
+            sb.append(imageSize.getHeight());
+        }
         sb.append("<br/></HTML>");
         return sb.toString();
     }
