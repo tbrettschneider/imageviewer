@@ -1,11 +1,3 @@
-/*
- * FullscreenAction.java
- *
- * Created on 1. Dezember 2006, 22:53
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
 package com.tommybrettschneider.imageviewer.ui.actions;
 
 import com.tommybrettschneider.imageviewer.util.UIUtils;
