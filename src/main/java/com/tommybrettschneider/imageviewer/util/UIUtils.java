@@ -57,28 +57,6 @@ public class UIUtils {
     }
 
     /**
-     * @param file
-     * @return
-     */
-    public static final ImageIcon getLargeFileIcon(final File file) {
-        if (file == null) {
-            throw new IllegalArgumentException("File is null!");
-        }
-        try {
-            return new ImageIcon(ShellFolder.getShellFolder(file).getIcon(true));
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
-    public static final Icon getSmallFileIcon(File file) {
-        if (file == null) {
-            throw new IllegalArgumentException("File is null!");
-        }
-        return FileSystemView.getFileSystemView().getSystemIcon(file);
-    }
-
-    /**
      * Centers component on screen.
      *
      * @param component

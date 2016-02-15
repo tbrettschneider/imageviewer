@@ -1,5 +1,6 @@
 package com.tommybrettschneider.imageviewer.ui.directorybox;
 
+import com.tommybrettschneider.imageviewer.util.Files;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionListener;
@@ -95,7 +96,7 @@ public class DirectoryBox extends JComboBox {
                 if (getItem() instanceof File) {
                     File file = (File) getItem();
                     textField.setText(file.toString());
-                    label.setIcon(UIUtils.getSmallFileIcon(file));
+                    label.setIcon(Files.getSmallFileIcon(file));
                     this.add(label, BorderLayout.WEST);
                 }
             } else {
@@ -153,7 +154,7 @@ public class DirectoryBox extends JComboBox {
             File file = (File) value;
             if (file != null) {
                 label.setText(file.toString());
-                label.setIcon(UIUtils.getSmallFileIcon(file));
+                label.setIcon(Files.getSmallFileIcon(file));
             }
             label.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 2));
             return label;

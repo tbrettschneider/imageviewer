@@ -1,10 +1,15 @@
 package com.tommybrettschneider.imageviewer.util;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.filechooser.FileSystemView;
 import org.apache.commons.io.FilenameUtils;
+import sun.awt.shell.ShellFolder;
 
-public class FileHelper {
+public class Files {
 
     private static final String[] FILE_EXTENSION_ZIP = {"zip", "ZIP"};
     
@@ -29,5 +34,27 @@ public class FileHelper {
             return Arrays.stream(file.listFiles()).parallel().mapToLong(f -> f.length()).sum();
         }
         return file.length();
+    }
+
+    /**
+     * @param file
+     * @return
+     */
+    public static final ImageIcon getLargeFileIcon(final File file) {
+        if (file == null) {
+            throw new IllegalArgumentException("File is null!");
+        }
+        try {
+            return new ImageIcon(ShellFolder.getShellFolder(file).getIcon(true));
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    public static final Icon getSmallFileIcon(File file) {
+        if (file == null) {
+            throw new IllegalArgumentException("File is null!");
+        }
+        return FileSystemView.getFileSystemView().getSystemIcon(file);
     }
 }

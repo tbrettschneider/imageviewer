@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
  *
  * @author Tommy Brettschneider
  */
-public class ImageUtil {
+public class Images {
 
     /**
      * Convenience method that returns a scaled instance of the provided

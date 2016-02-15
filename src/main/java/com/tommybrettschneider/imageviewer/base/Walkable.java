@@ -1,6 +1,6 @@
 package com.tommybrettschneider.imageviewer.base;
 
-import com.tommybrettschneider.imageviewer.util.FileHelper;
+import com.tommybrettschneider.imageviewer.util.Files;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -11,24 +11,24 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 /**
  *
  * @author Tommy Brettschneider
- * @param <Source>
- * @param <ChildType>
+ * @param <ImageFolderType>
+ * @param <ImageSourceType>
  */
-public abstract class Walkable<Source, ChildType> {
+public abstract class Walkable<ImageFolderType, ImageSourceType> {
     
     private final static Logger LOGGER = Logger.getLogger(Walkable.class.getName()); 
     
-    protected Source source;
+    protected ImageFolderType source;
     
     public Walkable() {}
     
-    public Walkable(Source source) {
+    public Walkable(ImageFolderType source) {
         this.source = source;
     }
     
-    public abstract Stream<ChildType> getChildren();
+    public abstract Stream<ImageSourceType> getChildren();
     
-    public Source getSource() {
+    public ImageFolderType getSource() {
         return this.source;
     }
     
@@ -38,7 +38,7 @@ public abstract class Walkable<Source, ChildType> {
             File file = (File)obj;
             if (file.isDirectory()) {
                 walkable = new Directory(file);
-            } else if (FileHelper.isZIP(file)) {
+            } else if (Files.isZIP(file)) {
                 try {
                     walkable = new ZipFile(new java.util.zip.ZipFile(file));
                 } catch (IOException e) {

@@ -1,6 +1,6 @@
 package com.tommybrettschneider.imageviewer.ui.explorer;
 
-import com.tommybrettschneider.imageviewer.util.FileHelper;
+import com.tommybrettschneider.imageviewer.util.Files;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -129,7 +129,7 @@ public class FilesystemTreeNode extends DefaultMutableTreeNode implements Transf
         childrenLoaded = true;
         Arrays.stream(fileSystemView.getFiles(getDirectory(), true))
             .sorted(NameFileComparator.NAME_SYSTEM_COMPARATOR)
-            .filter(file->fileSystemView.isTraversable(file) || FileHelper.isZIP(file))
+            .filter(file->fileSystemView.isTraversable(file) || Files.isZIP(file))
             .forEach(file->add(new FilesystemTreeNode(file, fileSystemView)));
         }
     
