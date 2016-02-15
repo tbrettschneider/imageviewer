@@ -32,10 +32,13 @@ import javax.swing.SwingUtilities;
 
 import static com.tommybrettschneider.imageviewer.ui.preview.ImageDisplayMode.*;
 import java.util.logging.Logger;
+import org.apache.commons.lang3.StringUtils;
 
 public class PreviewPane extends JPanel implements IPreviewPane {
 
     private static final Logger LOGGER = Logger.getLogger(PreviewPane.class.getName()); 
+    
+    private static final String CLASSPATH_IMG_INPROGRESS = "/wait.gif";
     private static final String PROPERTY_DISPLAYMODE = "displayMode";
     
     private final IImageCache imageCache;
@@ -46,7 +49,6 @@ public class PreviewPane extends JPanel implements IPreviewPane {
     private JPopupMenu contextMenu;
     private ExecutorService executorService;
     private Runnable refreshImageJob = new RefreshImageJob();
-//    private final JProgressBar progress = new JProgressBar(0,100);
 
     public static PreviewPane getPreviewPane() {
         return PreviewPane.getPreviewPane(AUTORESIZE, true);
@@ -277,14 +279,11 @@ public class PreviewPane extends JPanel implements IPreviewPane {
 
     private final class RefreshImageJob implements Runnable {
 
-        // classloader loads progress image
-        private final Image inProgressImage
-                = new ImageIcon(getClass().getResource("/wait.gif")).getImage();
+        private final Image waitImg = new ImageIcon(getClass().getResource(CLASSPATH_IMG_INPROGRESS)).getImage();
         private final Runnable preProcessRunnable = () -> {
             PreviewPane.this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            icon.setImage(inProgressImage);
-
-            if (isDnDEnabled() && label.getText() != null) {
+            icon.setImage(waitImg);
+            if (isDnDEnabled() && StringUtils.isNotBlank(label.getText())) {
                 label.setText(null);
             }
             label.invalidate();
@@ -295,15 +294,15 @@ public class PreviewPane extends JPanel implements IPreviewPane {
 
         private final class PostProcessRunnable implements Runnable {
 
-            private BufferedImage newImage;
+            private BufferedImage bufImg;
 
-            public void setNewImage(BufferedImage img) {
-                newImage = img;
+            public void setNewImage(BufferedImage bufImg) {
+                this.bufImg = bufImg;
             }
 
             @Override
             public void run() {
-                icon.setImage(newImage);
+                icon.setImage(bufImg);
                 label.invalidate();
                 revalidate();
                 repaint(250);
@@ -314,26 +313,26 @@ public class PreviewPane extends JPanel implements IPreviewPane {
         @Override
         public void run() {
             preProcess();
-            final BufferedImage newImg = processImage();
-            postProcess(newImg);
+            final BufferedImage bufImg = processImage();
+            postProcess(bufImg);
             requestFocusInWindow();
         }
 
         private BufferedImage processImage() {
-            final BufferedImage newImg;
+            final BufferedImage bufImg;
             if (displayMode.equals(AUTORESIZE)) {
-                newImg = imageCache.proportionalScale(imageCache.getCurrentImage(), PreviewPane.this);
+                bufImg = imageCache.proportionalScale(imageCache.getCurrentImage(), PreviewPane.this);
             } else {
-                newImg = imageCache.proportionalScale(imageCache.getCurrentImage(), displayMode);
+                bufImg = imageCache.proportionalScale(imageCache.getCurrentImage(), displayMode);
                 if (scrollpane.isVisible()) {
                     scrollpane.requestFocusInWindow();
                 }
             }
-            return newImg;
+            return bufImg;
         }
 
-        private void postProcess(final BufferedImage newImg) {
-            postProcessRunnable.setNewImage(newImg);
+        private void postProcess(final BufferedImage bufImg) {
+            postProcessRunnable.setNewImage(bufImg);
             try {
                 SwingUtilities.invokeAndWait(postProcessRunnable);
             } catch (InterruptedException | InvocationTargetException e) {
@@ -369,8 +368,8 @@ public class PreviewPane extends JPanel implements IPreviewPane {
     }
 
     @Override
-    public void setBackground(Color bg) {
-        getScrollpane().getViewport().setBackground(bg);
+    public void setBackground(Color color) {
+        getScrollpane().getViewport().setBackground(color);
     }
 
     public void setExecutorService(ExecutorService exec) {
@@ -378,10 +377,6 @@ public class PreviewPane extends JPanel implements IPreviewPane {
     }
 
     public ExecutorService getExecutorService() {
-        return executorService;
-    }
-
-    public ExecutorService getExec() {
         return executorService;
     }
 
