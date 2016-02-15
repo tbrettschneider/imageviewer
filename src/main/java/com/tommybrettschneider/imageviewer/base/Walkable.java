@@ -1,6 +1,6 @@
 package com.tommybrettschneider.imageviewer.base;
 
-import com.tommybrettschneider.imageviewer.io.util.FileHelper;
+import com.tommybrettschneider.imageviewer.util.FileHelper;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;

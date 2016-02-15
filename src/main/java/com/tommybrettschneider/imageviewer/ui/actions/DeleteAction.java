@@ -1,6 +1,6 @@
 package com.tommybrettschneider.imageviewer.ui.actions;
 
-import com.tommybrettschneider.imageviewer.ui.components.thumbnail.FileThumbnail;
+import com.tommybrettschneider.imageviewer.ui.thumbnail.FileThumbnail;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 

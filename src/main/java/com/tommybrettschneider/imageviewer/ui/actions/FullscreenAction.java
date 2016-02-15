@@ -8,7 +8,7 @@
  */
 package com.tommybrettschneider.imageviewer.ui.actions;
 
-import com.tommybrettschneider.imageviewer.ui.util.UIUtils;
+import com.tommybrettschneider.imageviewer.util.UIUtils;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
