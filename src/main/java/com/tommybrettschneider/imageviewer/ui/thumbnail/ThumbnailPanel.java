@@ -1,9 +1,7 @@
 package com.tommybrettschneider.imageviewer.ui.thumbnail;
 
-import static com.tommybrettschneider.imageviewer.ui.thumbnail.ScrollableThumbnailPane.THUMB_MARGIN_BOTTOM;
-import static com.tommybrettschneider.imageviewer.ui.thumbnail.ScrollableThumbnailPane.THUMB_MARGIN_LEFT;
-import static com.tommybrettschneider.imageviewer.ui.thumbnail.ScrollableThumbnailPane.THUMB_MARGIN_RIGHT;
-import static com.tommybrettschneider.imageviewer.ui.thumbnail.ScrollableThumbnailPane.THUMB_MARGIN_TOP;
+import static com.tommybrettschneider.imageviewer.ui.thumbnail.ScrollableThumbnailPane.THUMB_MARGIN;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -15,7 +13,7 @@ import javax.swing.JPanel;
  */
 public class ThumbnailPanel extends JPanel {
 
-    private ScrollableThumbnailPane stp;
+    private final ScrollableThumbnailPane stp;
 
     public ThumbnailPanel(ScrollableThumbnailPane stp) {
         this.stp = stp;
@@ -29,7 +27,7 @@ public class ThumbnailPanel extends JPanel {
 
     @Override
     public java.awt.Dimension getMinimumSize() {
-        return new Dimension(getThumbSize() + THUMB_MARGIN_LEFT * THUMB_MARGIN_RIGHT, getThumbSize() + THUMB_MARGIN_TOP + THUMB_MARGIN_BOTTOM);
+        return new Dimension(getThumbSize() + THUMB_MARGIN * THUMB_MARGIN, getThumbSize() + THUMB_MARGIN + THUMB_MARGIN);
     }
 
     @Override
@@ -55,21 +53,4 @@ public class ThumbnailPanel extends JPanel {
 
         return d;
     }
-    
-//        @Override
-//    public String getToolTipText(MouseEvent evt) {
-//        System.out.println(evt.getSource());
-//        System.out.println(this.getComponentCount());
-//        System.out.println(this.getClass());
-//        System.out.println(evt.getPoint());
-//        System.out.println(evt.getLocationOnScreen());
-//        JComponent component = (JComponent)SwingUtilities.getDeepestComponentAt(this, evt.getX(), evt.getY());
-//        Component c2 = getComponentAt(evt.getPoint());
-//        System.out.println(c2);
-//        if (component != null) {
-//            System.out.println(component);
-//            return component.getToolTipText();
-//        }
-//        return null;
-//    }
 }

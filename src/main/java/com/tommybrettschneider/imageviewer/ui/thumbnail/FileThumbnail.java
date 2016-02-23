@@ -12,7 +12,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.filechooser.FileSystemView;
 import org.apache.commons.io.IOUtils;
 import sun.awt.shell.ShellFolder;
 
@@ -25,7 +27,7 @@ public class FileThumbnail extends Thumbnail<File> {
     }
 
     @Override
-    protected String getSourceFilename() {
+    public String getSourceFilename() {
         return getSource().getName();
     }
     
@@ -39,9 +41,11 @@ public class FileThumbnail extends Thumbnail<File> {
     @Override
     public void paintProxyImage(Graphics2D g2d) {
         try {
-            final ShellFolder sf = ShellFolder.getShellFolder(getSource());
-            final ImageIcon icon = new ImageIcon(sf.getIcon(true));
-            g2d.drawImage(icon.getImage(), (getThumbnailWidth() - icon.getIconWidth()) / 2, (getThumbnailHeight() - icon.getIconHeight()) / 2, this);
+            //final ShellFolder sf = ShellFolder.getShellFolder(getSource());
+            //final ImageIcon icon = new ImageIcon(sf.getIcon(true));
+            final Icon icon = FileSystemView.getFileSystemView().getSystemIcon(getSource());
+            icon.paintIcon(this, g2d, (getThumbnailWidth() - icon.getIconWidth()) / 2, (getThumbnailHeight() - icon.getIconHeight()) / 2);
+            //g2d.drawImage(icon.getImage(), (getThumbnailWidth() - icon.getIconWidth()) / 2, (getThumbnailHeight() - icon.getIconHeight()) / 2, this);
         } catch (Exception e) {
             //TODO
         }

@@ -8,6 +8,7 @@ import com.tommybrettschneider.imageviewer.ui.explorer.FilesystemTreeNode;
 import com.tommybrettschneider.imageviewer.ui.preview.PreviewPane;
 import com.tommybrettschneider.imageviewer.ui.thumbnail.DragThumbnailGlassPane;
 import com.tommybrettschneider.imageviewer.ui.thumbnail.ScrollableThumbnailPane;
+import com.tommybrettschneider.imageviewer.util.Tooltips;
 import com.tommybrettschneider.imageviewer.util.UIUtils;
 import java.awt.Dimension;
 import java.io.File;
@@ -18,7 +19,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.tree.TreePath;
 
@@ -384,11 +384,8 @@ public class ApplicationWindow extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public static void main(String args[]) throws Exception {
-        ToolTipManager.sharedInstance().setEnabled(true);
-        ToolTipManager.sharedInstance().setInitialDelay(1500);
-        ToolTipManager.sharedInstance().setDismissDelay(4000);
-        ToolTipManager.sharedInstance().setReshowDelay(1500);
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        Tooltips.on().delay(1500).dismiss(4000).reshow(1500);
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new ApplicationWindow();
             frame.setExtendedState(JFrame.MAXIMIZED_BOTH);

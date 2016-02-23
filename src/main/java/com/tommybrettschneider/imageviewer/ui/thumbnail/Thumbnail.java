@@ -29,7 +29,6 @@ import javax.swing.JPanel;
 import javax.swing.ToolTipManager;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 /**
@@ -75,7 +74,7 @@ public abstract class Thumbnail<E> extends JPanel implements Runnable, Transfera
      * Gets the filename of the thumbnail's source object, e.g. <File> or <ZipEntry> instance.
      * @return the filename of the thumbnail's source
      */
-    protected abstract String getSourceFilename();
+    public abstract String getSourceFilename();
     
     /**
      * Gets the <code>Dimension</code> of each and every thumbnail.
@@ -153,7 +152,7 @@ public abstract class Thumbnail<E> extends JPanel implements Runnable, Transfera
     public abstract InputStream getInputStream() throws IOException;
     
     public abstract long getFileSize();
-    
+        
     @Override
     public void run() {
         try {

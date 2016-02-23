@@ -133,12 +133,12 @@ public class ThumbnailSelection extends JPanel implements Scrollable {
 
     @Override
     public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
-        return thumbnailPanel.getThumbSize() + ScrollableThumbnailPane.THUMB_MARGIN_TOP;
+        return thumbnailPanel.getThumbSize() + ScrollableThumbnailPane.THUMB_MARGIN;
     }
 
     @Override
     public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
-        int rowHeight = thumbnailPanel.getThumbSize() + ScrollableThumbnailPane.THUMB_MARGIN_TOP;
+        int rowHeight = thumbnailPanel.getThumbSize() + ScrollableThumbnailPane.THUMB_MARGIN;
         int numberOfVisibleRows = visibleRect.height / rowHeight;
         return numberOfVisibleRows * rowHeight;
     }

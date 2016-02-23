@@ -41,10 +41,7 @@ public class ScrollableThumbnailPane extends JScrollPane {
     private static final Logger LOGGER = Logger.getLogger(ScrollableThumbnailPane.class.getName());
     private static final Point UPPERLEFTCORNER = new Point(0, 0);
 
-    public static final int THUMB_MARGIN_LEFT = 10;
-    public static final int THUMB_MARGIN_RIGHT = 10;
-    public static final int THUMB_MARGIN_BOTTOM = 10;
-    public static final int THUMB_MARGIN_TOP = 10;
+    public static final int THUMB_MARGIN = 10;
 
     private ThumbnailPanel thumbnailPanel;
     private PreviewPane previewpane;
@@ -52,7 +49,7 @@ public class ScrollableThumbnailPane extends JScrollPane {
     private Walkable walkable;
     private int thumbSize = 135;
     private final PropertyChangeSupport pcs;
-    private MouseAdapter mouseListener;
+    private final MouseAdapter mouseListener;
 
     
     /**
@@ -61,7 +58,7 @@ public class ScrollableThumbnailPane extends JScrollPane {
     public ScrollableThumbnailPane() {
         super();
         getViewport().setBackground(Color.WHITE);
-        getViewport().setMinimumSize(new Dimension(getThumbSize() + THUMB_MARGIN_LEFT + THUMB_MARGIN_RIGHT, getThumbSize() + THUMB_MARGIN_TOP + THUMB_MARGIN_BOTTOM));
+        getViewport().setMinimumSize(new Dimension(getThumbSize() + THUMB_MARGIN + THUMB_MARGIN, getThumbSize() + THUMB_MARGIN + THUMB_MARGIN));
         this.mouseListener = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
@@ -126,26 +123,26 @@ public class ScrollableThumbnailPane extends JScrollPane {
                         if (Desktop.isDesktopSupported()) {                           
                             Desktop.getDesktop().open(((FileThumbnail)thumbnail).getSource());
                         }                        
-                        final JFrame w = new JFrame();
-                        w.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-                        w.setUndecorated(true);
-                        w.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds());
+                        final JFrame frame = new JFrame();
+                        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+                        frame.setUndecorated(true);
+                        frame.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds());
                         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-                        gd.setFullScreenWindow(w);                        
+                        gd.setFullScreenWindow(frame);                        
                         final Container parent = previewpane.getParent();                       
-                        w.getContentPane().setBackground(Color.BLACK);
-                        w.getContentPane().add(previewpane);
-                        w.setVisible(true);
+                        frame.getContentPane().setBackground(Color.BLACK);
+                        frame.getContentPane().add(previewpane);
+                        frame.setVisible(true);
                         previewpane.setFocusable(true);
                         previewpane.requestFocusInWindow();
                         previewpane.addKeyListener(new KeyAdapter() {
                             @Override
                             public void keyPressed(KeyEvent evt) {
                                 if (UIUtils.isEscapePressed(evt)) {
-                                    w.setVisible(false);
+                                    frame.setVisible(false);
                                     previewpane.removeKeyListener(this);
                                     parent.add(previewpane);
-                                    w.dispose();
+                                    frame.dispose();
                                 }
                             }
                         });
@@ -165,10 +162,10 @@ public class ScrollableThumbnailPane extends JScrollPane {
         setRequestFocusEnabled(true);
         setAutoscrolls(true);
         thumbnailPanel = new ThumbnailPanel(this);
-        ThumbnailSelection sc = new ThumbnailSelection(thumbnailPanel);
-        getViewport().add(sc);
-        thumbnailPanel.setLayout(new FlowLayout(FlowLayout.LEFT, THUMB_MARGIN_RIGHT, THUMB_MARGIN_BOTTOM));
-        sc.addMouseListener(new MouseAdapter() {
+        ThumbnailSelection selection = new ThumbnailSelection(thumbnailPanel);
+        getViewport().add(selection);
+        thumbnailPanel.setLayout(new FlowLayout(FlowLayout.LEFT, THUMB_MARGIN, THUMB_MARGIN));
+        selection.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 try {
@@ -196,8 +193,8 @@ public class ScrollableThumbnailPane extends JScrollPane {
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent evt) {
-                if ((getThumbSize() + THUMB_MARGIN_LEFT + THUMB_MARGIN_RIGHT + getVerticalScrollBar().getWidth()) > getWidth()) {
-                    setThumbSize(getWidth() - THUMB_MARGIN_LEFT - THUMB_MARGIN_RIGHT - getVerticalScrollBar().getWidth());
+                if ((getThumbSize() + THUMB_MARGIN + THUMB_MARGIN + getVerticalScrollBar().getWidth()) > getWidth()) {
+                    setThumbSize(getWidth() - THUMB_MARGIN - THUMB_MARGIN - getVerticalScrollBar().getWidth());
                 }
                 thumbnailPanel.invalidate();
                 thumbnailPanel.validate();

@@ -28,7 +28,7 @@ public final class ZipEntryThumbnail extends Thumbnail<ZipEntry> {
     }
 
     @Override
-    protected String getSourceFilename() {
+    public String getSourceFilename() {
         return getSource().getName();
     }
     

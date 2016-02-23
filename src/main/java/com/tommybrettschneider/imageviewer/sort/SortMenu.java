@@ -9,12 +9,15 @@ import java.util.Arrays;
 import java.util.Comparator;
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.SwingUtilities;
 
 public class SortMenu extends JMenu {
 
+    private ComparatorFactory cf;
     private Container sortableContainer;
     private ButtonGroup buttonGroup;
     private JMenuItem sortByFilename;
@@ -36,29 +39,29 @@ public class SortMenu extends JMenu {
 
     private void initialize() {
         if (tp != null) {
-            ComparatorFactory cf = ComparatorFactory.getInstance(tp.getSource());
+            cf = ComparatorFactory.getInstance(tp.getSource());
             removeAll();
             buttonGroup = new ButtonGroup();
 
             sortByFilename = new JRadioButtonMenuItem(new SortAction("Filename", cf.getNameComparator()));
-            this.add(sortByFilename);
+            add(sortByFilename);
             buttonGroup.add(sortByFilename);
 
             sortBySize = new JRadioButtonMenuItem(new SortAction("Size (KB)", cf.getSizeComparator()));
-            this.add(sortBySize);
+            add(sortBySize);
             buttonGroup.add(sortBySize);
 
             sortByModifiedDate = new JRadioButtonMenuItem(new SortAction("Modified Date", cf.getLastModifiedComparator()));
-            this.add(sortByModifiedDate);
+            add(sortByModifiedDate);
             buttonGroup.add(sortByModifiedDate);
 
             sortByImageProperties = new JRadioButtonMenuItem(new SortAction("Image Properties", cf.getImagePropertiesComparator()));
-            this.add(sortByImageProperties);
+            add(sortByImageProperties);
             buttonGroup.add(sortByImageProperties);
 
-            this.addSeparator();
+            addSeparator();
 
-            this.add(new JRadioButtonMenuItem(new SortAction("Reverse Order", cf.reverse())));
+            add(new JCheckBoxMenuItem("Reverse"));
         }
     }
     
@@ -66,14 +69,14 @@ public class SortMenu extends JMenu {
         this.sortableContainer = container;
     }
 
-    public Container getSortableContainer() {
-        return this.sortableContainer;
-    }
-
     class SortAction extends AbstractAction {
 
-        private final Comparator comparator;
+        private Comparator comparator;
 
+        public SortAction(String text) {
+            super(text);
+        }
+        
         public SortAction(String text, Comparator comparator) {
             super(text);
             this.comparator = comparator;
@@ -81,14 +84,23 @@ public class SortMenu extends JMenu {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            System.out.println(comparator);
             Component[] thumbnails = sortableContainer.getComponents();
-            Arrays.sort(thumbnails, comparator);
-            sortableContainer.removeAll();
-            Arrays.stream(thumbnails).parallel().forEach(thumb -> sortableContainer.add(thumb));
-            tp.getViewport().setViewPosition(new Point(0, 0));
-            sortableContainer.invalidate();
-            sortableContainer.validate();
-            sortableContainer.repaint();
+            Thread t = new Thread() {
+                @Override
+                public void run() {
+                    Arrays.parallelSort(thumbnails, comparator);
+                    SwingUtilities.invokeLater(() -> {
+                        sortableContainer.removeAll();
+                        Arrays.stream(thumbnails).forEach(thumb -> sortableContainer.add(thumb));
+                        tp.getViewport().setViewPosition(new Point(0, 0));
+                        sortableContainer.invalidate();
+                        sortableContainer.validate();
+                        sortableContainer.repaint();         
+                    });
+                }
+            };
+            t.start();  
         }
     }
 }
